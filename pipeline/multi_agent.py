@@ -10,7 +10,6 @@ Flow:
                                        -> graph_agent (self-healing retry)
 """
 
-import os
 import json
 import time
 from pathlib import Path
@@ -18,7 +17,6 @@ from typing import TypedDict
 from dotenv import load_dotenv
 
 from langgraph.graph import StateGraph, END
-from pydantic import BaseModel, Field
 
 from ingestion.base_ingester import ingest
 from security.pii_gateway import redact
@@ -29,7 +27,7 @@ from graph.neo4j_loader import execute_batch, get_driver, setup_constraints
 
 load_dotenv()
 
-# ── Agent State ───────────────────────────────────────────────────────────────
+# Agent State
 
 class AgentState(TypedDict):
     doc_id          : str
@@ -65,7 +63,7 @@ def initial_state(doc: dict) -> AgentState:
         token_log      = {}
     )
 
-# ── Node Functions ─────────────────────────────────────────────────────────────
+# Node Functions
 
 def pii_node(state: AgentState) -> AgentState:
     """Run PII redaction on raw text. Always runs first before any LLM call."""
@@ -115,7 +113,7 @@ def graph_agent_node(state: AgentState) -> AgentState:
     is_retry = bool(state.get("neo4j_error"))
 
     if is_retry:
-        print(f"  [Graph Agent] Retry {state['retry_count']} — fixing failed queries")
+        print(f"  [Graph Agent] Retry {state['retry_count']} - fixing failed queries")
     else:
         print(f"  [Graph Agent] Generating Cypher queries")
 
@@ -156,6 +154,7 @@ def neo4j_node(state: AgentState) -> AgentState:
     if result["success"]:
         state["status"]      = "complete"
         state["neo4j_error"] = ""
+        state["failed_queries"] = []
         print(f"    All {result['success_count']} queries succeeded in {state['latency_log']['neo4j']}s")
     else:
         state["neo4j_error"]    = result["errors"][0] if result["errors"] else "Unknown error"
@@ -168,7 +167,7 @@ def neo4j_node(state: AgentState) -> AgentState:
 
     return state
 
-# ── Routing Logic ──────────────────────────────────────────────────────────────
+# Routing Logic
 
 def route(state: AgentState) -> str:
     """
@@ -188,7 +187,7 @@ def route(state: AgentState) -> str:
     else:
         return END
 
-# ── Graph Construction ────────────────────────────────────────────────────────
+# Graph Construction
 
 def build_graph() -> StateGraph:
     """Wire all nodes and edges into a LangGraph StateGraph."""
@@ -220,7 +219,7 @@ def build_graph() -> StateGraph:
 
     return graph.compile()
 
-# ── Pipeline Runner ───────────────────────────────────────────────────────────
+# Pipeline Runner
 
 def run_pipeline(docs: list[dict]) -> list[dict]:
     """
@@ -232,7 +231,7 @@ def run_pipeline(docs: list[dict]) -> list[dict]:
     driver.close()
 
     pipeline = build_graph()
-    print(pipeline.get_graph().draw_ascii())
+    print(pipeline.get_graph().draw_mermaid())
     results  = []
     total_start = time.time()
 
@@ -307,5 +306,5 @@ def run_pipeline(docs: list[dict]) -> list[dict]:
 
 
 if __name__ == "__main__":
-    docs = ingest("parsed", limit=1)
+    docs = ingest("parsed", limit=6)
     run_pipeline(docs)

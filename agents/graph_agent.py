@@ -11,6 +11,7 @@ routes back here with the error and this agent fixes its own query.
 """
 
 import os
+import re
 import json
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -21,43 +22,58 @@ load_dotenv()
 # client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))    # Replcae it with Anthropic client if needed
 
-# ── System Prompt ─────────────────────────────────────────────────────────────
+# System Prompt
 INCLUDE_COLLABORATIONS = False
 SYSTEM_PROMPT = f"""
-You are a specialized Neo4j Cypher generation agent.
-Your only job is to convert a structured researcher profile JSON into Cypher queries.
+You are a Neo4j Cypher generation agent.
+Your only job: convert a researcher profile JSON into valid Cypher queries.
 
-Graph schema rules you must follow:
-- Researcher node: (:Researcher {{name: string}})
-- Skill node: (:Skill {{name: string}})
-- Framework node: (:Framework {{name: string}})
-- Language node: (:Language {{name: string}})
-- Domain node: (:Domain {{name: string}})
-- Institution node: (:Institution {{name: string}})
+GRAPH SCHEMA:
+Nodes:
+  (:Researcher {{name: string}})
+  (:Skill {{name: string}})
+  (:Institution {{name: string}})
 
-Relationships to generate:
-- (:Researcher)-[:EXPERT_IN]->(:Skill)
-- (:Researcher)-[:USES_FRAMEWORK]->(:Framework)
-- (:Researcher)-[:PROGRAMS_IN]->(:Language)
-- (:Researcher)-[:RESEARCHES]->(:Domain)
-- (:Researcher)-[:AFFILIATED_WITH]->(:Institution)
-{"- (:Researcher)-[:COLLABORATED_WITH]->(:Researcher)" if INCLUDE_COLLABORATIONS else "- Do NOT generate any COLLABORATED_WITH edges"}
+Relationships:
+  (:Researcher)-[:EXPERT_IN]->(:Skill)
+  (:Researcher)-[:AFFILIATED_WITH]->(:Institution)
+  {"(:Researcher)-[:COLLABORATED_WITH]->(:Researcher)" if INCLUDE_COLLABORATIONS else "Do NOT generate COLLABORATED_WITH edges"}
 
-Critical rules:
-- The profile contains a researchers list with ALL authors
-- Create a full Researcher node for EVERY author in the list
-- Every author gets ALL skills, frameworks, languages, domains from the paper
-- Always use MERGE not CREATE to avoid duplicates
-- If a previous query used CREATE and failed, replace CREATE with MERGE, do not retry with CREATE again
-- MERGE researchers on name only: MERGE (r:Researcher {{name: 'John Smith'}})
-- Do not generate any id field on Researcher nodes
-- Each query must end with a semicolon
-- Return ONLY a JSON array of Cypher query strings
-- No markdown, no explanation, no code blocks
+GENERATION RULES:
+1. Create a Researcher node for EVERY author in the researchers list
+2. Every author receives ALL skills from the profile
+3. If institution is present, every author receives that institution from the profile
+4. Always MERGE on name only: MERGE (r:Researcher {{name: 'John Smith'}})
+5. Never add an id field to any node
+6. If institution is empty, missing, or unknown, do not generate Institution nodes or AFFILIATED_WITH relationships
+
+CYPHER SYNTAX RULES - FOLLOW EXACTLY:
+7. Always use MERGE, never CREATE under any circumstances
+8. Every relationship statement must be fully self-contained with explicit node properties.
+   WRONG - bare variables have no context across statements:
+     MERGE (r)-[:EXPERT_IN]->(s)
+   CORRECT - both nodes explicitly defined in the same statement:
+     MERGE (r:Researcher {{name: 'X'}}) MERGE (s:Skill {{name: 'Y'}}) MERGE (r)-[:EXPERT_IN]->(s)
+9. Each string in the output array must contain exactly ONE Cypher statement
+10. Do not include semicolons
+11. Do not chain multiple statements inside a single string
+
+OUTPUT RULES:
+12. Return ONLY a valid JSON array of Cypher query strings
+13. No markdown, no code blocks, no explanation, no preamble
+14. Generate in this order: researcher nodes, institution node if present, skill nodes, then all relationship statements
+15. Example output format:
+    [
+      "MERGE (r:Researcher {{name: 'John Smith'}})",
+      "MERGE (i:Institution {{name: 'MIT'}})",
+      "MERGE (s:Skill {{name: 'PyTorch'}})",
+      "MERGE (r:Researcher {{name: 'John Smith'}}) MERGE (i:Institution {{name: 'MIT'}}) MERGE (r)-[:AFFILIATED_WITH]->(i)",
+      "MERGE (r:Researcher {{name: 'John Smith'}}) MERGE (s:Skill {{name: 'PyTorch'}}) MERGE (r)-[:EXPERT_IN]->(s)"
+    ]
 """
 
 
-# ── Cypher Generation ─────────────────────────────────────────────────────────
+# Cypher Generation
 
 def generate_cypher(profile: dict, doc_id: str = "unknown", error: str = None, failed_queries: list = None) -> dict:
     """
@@ -67,16 +83,24 @@ def generate_cypher(profile: dict, doc_id: str = "unknown", error: str = None, f
 
     if error and failed_queries:
         user_message = f"""
-    The following Cypher queries failed with this error:
+    These Cypher queries failed with this error:
     ERROR: {error}
 
     Failed queries:
     {json.dumps(failed_queries, indent=2)}
 
-    Original profile:
-    {json.dumps(profile, indent=2)}
+    Use this profile data to fix the queries with correct values:
+    Institution: {profile.get('institution', '')}
+    Skills: {json.dumps(profile.get('skills', []))}
 
-    Fix only the failed queries and return the corrected JSON array of Cypher strings.
+    Rules:
+    - Generate ONLY the fixed versions of the failed queries
+    - Do not regenerate queries that already succeeded
+    - Never use placeholder values like 'Your Domain Name'
+    - Always use actual values from the profile data above
+    - Never use inline path patterns
+    - Do not include semicolons
+    - Return a JSON array of corrected Cypher strings
     """
     elif error:
         user_message = f"""
@@ -90,7 +114,11 @@ def generate_cypher(profile: dict, doc_id: str = "unknown", error: str = None, f
     """
     else:
         user_message = f"""
-    Generate Cypher queries for this researcher profile:
+    Generate Cypher queries for this researcher profile.
+    Create all nodes first, then all relationships.
+    Every relationship statement must be fully self-contained. Never use bare variables.
+
+    Profile:
     {json.dumps(profile, indent=2)}
     """
 
@@ -130,6 +158,10 @@ def generate_cypher(profile: dict, doc_id: str = "unknown", error: str = None, f
                 raw_output = part.strip()
                 break
 
+    # Remove invalid backslash escapes that break json.loads
+    #raw_output = raw_output.replace("\\'", "'")
+    raw_output = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', raw_output)
+    
     try:
         queries = json.loads(raw_output)
         if not isinstance(queries, list):
@@ -143,7 +175,7 @@ def generate_cypher(profile: dict, doc_id: str = "unknown", error: str = None, f
         raise ValueError(f"Graph agent returned invalid output for {doc_id}: {e}\nRaw: {raw_output[:300]}")
 
 
-# ── Test ──────────────────────────────────────────────────────────────────────
+# Test
 
 if __name__ == "__main__":
     import json
@@ -151,10 +183,7 @@ if __name__ == "__main__":
     test_profile = {
         "researchers"          : ["Junaed Younus Khan", "Md. Al-Amin", "Tasnim Ahmed"],
         "institution"          : "Bangladesh University of Engineering and Technology",
-        "research_domains"     : ["Natural Language Processing", "Fake News Detection"],
-        "technical_skills"     : ["Feature Engineering", "Text Classification", "LSTM"],
-        "ml_frameworks"        : ["TensorFlow", "Keras", "scikit-learn"],
-        "programming_languages": ["Python", "R"],
+        "skills"               : ["Natural Language Processing", "Fake News Detection", "Feature Engineering", "Text Classification", "LSTM", "TensorFlow", "Keras", "scikit-learn", "Python", "R"],
     }
 
     # print("Testing graph agent with sample profile\n")
