@@ -4,26 +4,24 @@ Intercepts raw document text and sanitizes personal identifiers
 before any content is sent to cloud inference APIs.
 
 Two layers:
-1. Presidio (NLP-based) -> catches names, emails, phones, locations
+1. Presidio (NLP-based) -> catches contact and identifier-style PII
 2. Regex fallback       -> catches patterns Presidio might miss
 
-Institutional names (Stanford, Google Research) are preserved.
-They are structural data, not PII.
+Researcher names, institutional names, and locations are preserved.
+They are structural data for this academic profiling pipeline.
 """
 
 import re
-import os
-from pathlib import Path
 from dotenv import load_dotenv
 
-from presidio_analyzer import AnalyzerEngine, RecognizerResult
+from presidio_analyzer import AnalyzerEngine
 from presidio_analyzer.nlp_engine import NlpEngineProvider
 from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import OperatorConfig
 
 load_dotenv()
 
-# ── NLP Engine Setup ──────────────────────────────────────────────────────────
+# NLP Engine Setup
 
 def build_analyzer() -> AnalyzerEngine:
     """
@@ -46,7 +44,7 @@ def build_analyzer() -> AnalyzerEngine:
 ANALYZER  = build_analyzer()
 ANONYMIZER = AnonymizerEngine()
 
-# ── PII Entity Types to Redact ────────────────────────────────────────────────
+# PII Entity Types to Redact
 
 REDACT_ENTITIES = [
     "EMAIL_ADDRESS",
@@ -58,7 +56,7 @@ REDACT_ENTITIES = [
     "IBAN_CODE",
 ]
 
-# ── Regex Patterns ────────────────────────────────────────────────────────────
+# Regex Patterns
 
 REGEX_PATTERNS = {
     "EMAIL"  : r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}",
@@ -66,7 +64,7 @@ REGEX_PATTERNS = {
     "URL"    : r"https?://[^\s]+",
 }
 
-# ── Core Redaction Logic ──────────────────────────────────────────────────────
+# Core Redaction Logic
 
 def presidio_redact(text: str) -> tuple[str, list[dict]]:
     """
@@ -152,7 +150,7 @@ def redact(text: str, doc_id: str = "unknown") -> dict:
     }
 
 
-# ── Batch Processing ──────────────────────────────────────────────────────────
+# Batch Processing
 
 def redact_batch(docs: list[dict]) -> list[dict]:
     """
@@ -174,7 +172,7 @@ def redact_batch(docs: list[dict]) -> list[dict]:
     return docs
 
 
-# ── Test ──────────────────────────────────────────────────────────────────────
+# Test
 
 if __name__ == "__main__":
     test_text = """

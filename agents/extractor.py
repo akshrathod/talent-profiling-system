@@ -19,7 +19,7 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))    # Replcae it with Anthropic client if needed
 # client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
-# ── Output Schema ─────────────────────────────────────────────────────────────
+# Output Schema
 
 class ResearcherProfile(BaseModel):
     """
@@ -29,13 +29,10 @@ class ResearcherProfile(BaseModel):
     """
     researchers          : list[str]   = Field(default_factory=list)
     institution          : str         = Field(default="unknown")
-    research_domains     : list[str]   = Field(default_factory=list)
-    technical_skills     : list[str]   = Field(default_factory=list)
-    ml_frameworks        : list[str]   = Field(default_factory=list)
-    programming_languages: list[str]   = Field(default_factory=list)
+    skills               : list[str]   = Field(default_factory=list)
 
 
-# ── System Prompt ─────────────────────────────────────────────────────────────
+# System Prompt
 
 SYSTEM_PROMPT = """
 You are a specialized researcher profile extraction agent.
@@ -47,22 +44,19 @@ Rules:
 - Every field must be present
 - Use empty list for list fields you cannot find
 - Use "unknown" for string fields you cannot find
-- For technical_skills extract specific technologies, methods, algorithms
-- For ml_frameworks extract only software frameworks like PyTorch, TensorFlow, JAX
+- For skills extract research domains, technical skills, methods, algorithms,
+  ML frameworks, tools, and programming languages into one deduplicated list
 - For researchers extract ALL author names exactly as they appear
 
 JSON Schema:
 {
     "researchers"          : ["list of ALL author names"],
     "institution"          : "primary institution or university",
-    "research_domains"     : ["list of research areas"],
-    "technical_skills"     : ["list of specific skills and algorithms"],
-    "ml_frameworks"        : ["list of frameworks like PyTorch, TensorFlow"],
-    "programming_languages": ["list of programming languages"]
+    "skills"               : ["research domains, technical skills, ML frameworks, tools, and programming languages"]
 }
 """
 
-# ── Extraction Logic ──────────────────────────────────────────────────────────
+# Extraction Logic
 
 def extract(sanitized_text: str, doc_id: str = "unknown") -> dict:
     """
@@ -127,11 +121,14 @@ def extract(sanitized_text: str, doc_id: str = "unknown") -> dict:
     # Remove placeholder values the LLM sometimes returns for empty fields
     PLACEHOLDER_VALUES = {"unknown", "n/a", "none", "not specified", "not mentioned", ""}
 
-    for field in ["research_domains", "technical_skills", "ml_frameworks", "programming_languages", "researchers"]:
+    for field in ["skills", "researchers"]:
         profile_dict[field] = [
             item for item in profile_dict[field]
             if item.strip().lower() not in PLACEHOLDER_VALUES
         ]
+
+    if profile_dict["institution"].strip().lower() in PLACEHOLDER_VALUES:
+        profile_dict["institution"] = ""
 
     return {
         "profile"      : profile_dict,
@@ -140,7 +137,7 @@ def extract(sanitized_text: str, doc_id: str = "unknown") -> dict:
     }
 
 
-# ── Test ──────────────────────────────────────────────────────────────────────
+# Test
 
 if __name__ == "__main__":
     from ingestion.base_ingester import ingest

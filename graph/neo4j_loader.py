@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# ── Driver ────────────────────────────────────────────────────────────────────
+# Driver
 
 def get_driver():
     return GraphDatabase.driver(
@@ -19,14 +19,11 @@ def get_driver():
         auth=(os.getenv("NEO4J_USER"), os.getenv("NEO4J_PASSWORD"))
     )
 
-# ── Constraints ───────────────────────────────────────────────────────────────
+# Constraints
 
 CONSTRAINTS = [
     "CREATE CONSTRAINT unique_researcher IF NOT EXISTS FOR (r:Researcher) REQUIRE r.name IS UNIQUE",
     "CREATE CONSTRAINT unique_skill IF NOT EXISTS FOR (s:Skill) REQUIRE s.name IS UNIQUE",
-    "CREATE CONSTRAINT unique_framework IF NOT EXISTS FOR (f:Framework) REQUIRE f.name IS UNIQUE",
-    "CREATE CONSTRAINT unique_language IF NOT EXISTS FOR (l:Language) REQUIRE l.name IS UNIQUE",
-    "CREATE CONSTRAINT unique_domain IF NOT EXISTS FOR (d:Domain) REQUIRE d.name IS UNIQUE",
     "CREATE CONSTRAINT unique_institution IF NOT EXISTS FOR (i:Institution) REQUIRE i.name IS UNIQUE",
 ]
 
@@ -43,7 +40,7 @@ def setup_constraints(driver):
     print("Constraints verified")
 
 
-# ── Query Execution ───────────────────────────────────────────────────────────
+# Query Execution
 
 def execute_query(session, query: str) -> dict:
     """
@@ -76,7 +73,6 @@ def execute_batch(queries: list[str], doc_id: str = "unknown") -> dict:
     success_count  = 0
 
     # Flatten: split every query string into individual statements
-    print(queries)
     individual_statements = []
     for query in queries:
         parts = query.split(";")
@@ -84,6 +80,7 @@ def execute_batch(queries: list[str], doc_id: str = "unknown") -> dict:
             part = part.strip()
             if part:
                 part = re.sub(r'\bCREATE\s+\(', 'MERGE (', part, flags=re.IGNORECASE)
+                part = re.sub(r"(?<=[a-zA-Z])'(?=[a-zA-Z])", "\\'", part)
                 individual_statements.append(part)
     
     print(f"\n  --- {len(individual_statements)} normalized statements for {doc_id} ---")
@@ -111,7 +108,7 @@ def execute_batch(queries: list[str], doc_id: str = "unknown") -> dict:
         "executed"      : True,
     }
 
-# ── Connection Test ───────────────────────────────────────────────────────────
+# Test
 
 def test_connection() -> bool:
     """Verify Neo4j is reachable before running the pipeline."""
@@ -129,7 +126,7 @@ def test_connection() -> bool:
         return False
 
 
-# ── Entry Point ───────────────────────────────────────────────────────────────
+# Entry point
 
 if __name__ == "__main__":
     print("Testing Neo4j connection and setup\n")

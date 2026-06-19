@@ -13,11 +13,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# ── Config ────────────────────────────────────────────────────────────────────
+# Config
 
 S3_BUCKET       = os.getenv("S3_BUCKET_NAME", "talent-profiling-raw-docs")  # saved in .env file
 LOCAL_RAW_DIR   = Path("data/raw")
-PAPERS_PER_TOPIC = 10         # 5 topics × 10 papers = 50 papers total
+PAPERS_PER_TOPIC = 10         # 5 topics x 10 papers = 50 papers total
 
 SEARCH_TOPICS = [
     "large language models transformer fine-tuning",
@@ -27,7 +27,7 @@ SEARCH_TOPICS = [
     "AI safety alignment robustness",
 ]
 
-# ── S3 Client ─────────────────────────────────────────────────────────────────
+# S3 Client
 
 def get_s3_client():
     return boto3.client(
@@ -37,7 +37,7 @@ def get_s3_client():
         region_name           = os.getenv("AWS_REGION", "us-east-1"),
     )
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
+# Helpers
 
 def sanitize_filename(title: str) -> str:
     """Turn a paper title into a safe filename."""
@@ -65,7 +65,7 @@ def upload_to_s3(s3, local_path: Path, s3_key: str) -> bool:
         print(f"    X S3 upload failed: {e}")
         return False
 
-# ── Core ingestion ─────────────────────────────────────────────────────────────
+# Core ingestion
 
 def ingest_papers():
     LOCAL_RAW_DIR.mkdir(parents=True, exist_ok=True)
@@ -130,7 +130,7 @@ def ingest_papers():
 
         print()
 
-    # ── Save registry ──────────────────────────────────────────────────────────
+    # Save registry
     import json
     registry_path = LOCAL_RAW_DIR / "registry.json"
     with open(registry_path, "w") as f:
@@ -148,7 +148,7 @@ def ingest_papers():
     return registry
 
 
-# ── Entry point ───────────────────────────────────────────────────────────────
+# Entry point
 
 if __name__ == "__main__":
     registry = ingest_papers()
