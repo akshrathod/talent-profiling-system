@@ -1,0 +1,1319 @@
+TITLE: AI prediction leads people to forgo guaranteed rewards
+AUTHORS: Aoi Naito, Hirokazu Shirado
+CATEGORIES: cs.HC
+PUBLISHED: 2026-03-30 19:36:10+00:00
+ABSTRACT: Artificial intelligence (AI) is understood to affect the content of people's decisions. Here, using a behavioral implementation of the classic Newcomb's paradox in 1,305 participants, we show that AI can also change how people decide. In this paradigm, belief in predictive authority can lead individuals to constrain decision-making, forgoing a guaranteed reward. Over 40% of participants treated AI as such a predictive authority. This significantly increased the odds of forgoing the guaranteed reward by a factor of 3.39 (95% CI: 2.45-4.70) compared with random framing, and reduced earnings by 10.7-42.9%. The effect appeared across AI presentations and decision contexts and persisted even when predictions failed. When people believe AI can predict their behavior, they may self-constrain it in anticipation of that prediction.
+
+FULL TEXT:
+AI prediction leads people to forgo guaranteed
+rewards
+Aoi Naito1,2, Hirokazu Shirado1∗
+1Human-Computer Interaction Institute, Carnegie Mellon University, Pittsburgh & 15213, USA.
+2School of Environment and Society, Institute of Science Tokyo, Tokyo & 108-0023, Japan.
+∗Corresponding author. Email: shirado@cmu.edu
+Artificial intelligence (AI) is understood to affect the content of people’s deci-
+sions. Here, using a behavioral implementation of the classic Newcomb’s paradox
+in 1,305 participants, we show that AI can also change how people decide. In this
+paradigm, belief in predictive authority can lead individuals to constrain decision-
+making, forgoing a guaranteed reward. Over 40% of participants treated AI as
+such a predictive authority. This significantly increased the odds of forgoing the
+guaranteed reward by a factor of 3.39 (95% CI: 2.45–4.70) compared with ran-
+dom framing, and reduced earnings by 10.7–42.9%. The effect appeared across
+AI presentations and decision contexts and persisted even when predictions failed.
+When people believe AI can predict their behavior, they may self-constrain it in
+anticipation of that prediction.
+Artificial intelligence (AI) is described as augmenting human cognition (1). AI tools have been
+shown to increase individual and group productivity (2–4), but also introduce risks such as reduced
+autonomy (5), increased dishonesty (6), and strategic manipulation (7, 8). Across both positive
+and negative outcomes, these effects are typically interpreted within a classical Homo economicus
+framework, in which individuals use AI outputs to choose options that maximize benefits and
+minimize cost (9, 10). From this perspective, AI is understood to help individuals decide what to
+1
+arXiv:2603.28944v1  [cs.HC]  30 Mar 2026
+do within a given choice structure (11).
+However, AI may also shape how people decide when it is perceived as predictive. This
+possibility remains poorly understood and challenges standard assumptions that AI informs human
+decision-making while leaving its underlying decision schema unchanged. This can occur when
+individuals perceive predictive systems as accurate and overgeneralize this capability, treating them
+as revealing what they will do (12,13). Decision-making can then shift toward forming intentions
+consistent with anticipated predictions, which are then enacted (14–17). AI may activate—and
+amplify—this phenomenon, which we term predictive binding, at times leading individuals to
+forgo guaranteed rewards.
+To test this, we conduct behavioral experiments using a decision paradigm based on Newcomb’s
+paradox (13,18,19), a two-choice task in which different reasoning approaches can lead to different
+choices (see Supplementary Text). Participants face two boxes (Fig. 1A), where Box A always
+contains a guaranteed US$1 and Box B contains either US$0 or US$3. They choose either to take
+both boxes (two-boxing) or only Box B (one-boxing), and are paid accordingly. Before making their
+choice, they are told that an AI system predicts which option they will choose. If the AI predicts
+one-boxing, Box B contains US$3; if it predicts two-boxing, Box B contains US$0. At the time of
+choice, participants are not told the prediction or the resulting content of Box B. Instead, they are
+informed that Box B’s content has already been determined by the AI’s prediction and cannot be
+changed. In our implementation, we do not provide information about the AI’s predictive reliability
+to examine how participants’ own interpretations of its predictive capability guide their choices.
+From a strategic dominance perspective, two-boxing yields a higher payoff regardless of predic-
+tion (1 + 𝑋> 𝑋, where 𝑋∈{0, 3}). However, if individuals treat the AI’s prediction as reflecting
+their future action, they may instead treat the value of 𝑋as determined by their anticipated choice.
+Under this reasoning, one-boxing can be preferred, even at the cost of forgoing the guaranteed
+reward (1 + 0 < 3). Unlike cooperation or social dilemma games (20–22), this paradigm contains
+no strategic or social incentives that would otherwise justify choosing a lower-payoff option. Thus,
+observing one-boxing indicates that AI prediction can itself alter how individuals evaluate and
+select among available actions, even when it does not affect objective payoffs.
+Using this design, we conducted four preregistered online studies with 1,305 unique participants
+(see Methods). Study 1 (𝑁= 200) tested whether AI prediction increases one-boxing relative to
+2
+a random control. Study 2 (𝑁= 601) examined the robustness of this effect and its underlying
+mechanism across different interaction contexts and interfaces. Study 3 (𝑁= 303) tested whether
+the effect generalizes beyond the economic task using vignette-based scenarios. Study 4 (𝑁= 201)
+investigated how repeated interaction with AI prediction alters behavior observed in the one-shot
+task.
+Results
+AI prediction increases forgoing guaranteed rewards
+Across Studies 1 and 2, participants frequently forwent the guaranteed US$1 by choosing one-
+boxing when the decision was framed as being predicted by an AI system.
+Study 1 tested this effect in a two-condition online experiment (𝑁= 200). Participants were
+told that the content of Box B would be determined either by an “AI system” predicting their choice
+or by a “random picker wheel” with the same payoff structure, but without using any prediction of
+their choice. In the AI condition, 41 of 100 participants (41.0%) chose one-boxing, compared with
+26 of 100 (26.0%) in the random condition (𝑝= 0.025; Fig. 1B).
+Study 2 (𝑁= 601) confirmed the robustness of this effect across different interaction contexts
+and system interfaces. In addition to the identity of the predictor (AI versus random mechanism),
+we manipulated whether participants interacted with the system before making their decision. In
+the interactive AI condition, participants exchanged brief messages with an AI system powered
+by OpenAI’s GPT-4.1, whereas the interactive random condition presented a random drawing
+process of equivalent duration. Non-interactive conditions removed all system-specific interaction
+and described the outcome as determined by either an “AI system” or a “random generator.”
+Under random framing, one-boxing remained rare (15.3% in both interactive and non-interactive
+conditions; Fig. 1C). In contrast, one-boxing was substantially more frequent when decisions were
+framed as predicted by AI (45.0% in the non-interactive AI condition and 42.0% in the interactive
+AI condition). The overall increase in one-boxing under AI prediction was statistically significant
+(𝑝< 0.001), whereas interaction with the system did not significantly moderate the effect (𝑝= 1.0
+for both random and AI conditions; Table S1).
+3
+A fixed-effect meta-analysis across Studies 1 and 2 confirmed this effect: AI prediction increased
+the odds of forgoing the guaranteed reward by a factor of 3.39 (odds ratio = 3.39, 95% CI [2.45,
+4.70], 𝑝< 0.001; see Supplementary Text). This shift had measurable economic consequences.
+The observed shift toward one-boxing reduced realized earnings by 10.7–42.9% relative to the
+two-boxing baseline, depending on the AI prediction regime.
+To examine whether this effect generalizes beyond the stylized economic task, Study 3 presented
+participants (𝑁= 303) with three vignette scenarios adapted from Newcomb’s paradox: a job
+interview decision, a mobile data coupon choice, and a task application on a freelancing platform.
+Each scenario was presented under three conditions: no prediction, human-expert prediction, and
+AI prediction. Across scenarios, participants chose the one-box option in 26.7% of the cases under
+AI prediction and 36.6% under human-expert prediction, compared to 10.6% without prediction
+(Fig. 1D). Pairwise contrasts confirmed that both AI and human-expert predictions significantly
+increased one-box-type choices relative to control (𝑝< 0.001 for both conditions), with a modestly
+larger effect for human-expert than AI prediction (odds ratio = 1.67, 𝑝= 0.032). While the direction
+of the effect was consistent across scenarios, its magnitude varied (Fig. S1).
+Mechanism: perceived predictiveness and internal coherence
+Why did AI prediction make participants forgo guaranteed rewards? The system neither revealed
+its prediction nor provided any recommendation at the time of choice, ruling out explicit AI
+persuasion (7, 8). Moreover, identical payoff structures framed around random processes did not
+produce comparable behavior, indicating that the effect is not driven by payoff structure alone.
+Building on the causal interpretation of Newcomb’s paradox (19), one-boxing can emerge
+when participants treat the AI’s prediction and their own action as linked through a representation
+of “what I will do” (Fig. 2A). Participants may assume that the system predicts their anticipated
+action (perceived predictiveness) and treat their eventual action as the realization of that anticipation
+(internal coherence). When both are strong, prediction and action become psychologically coupled.
+This predictive binding yields outcome bundles—one-boxing with a full Box B (payoff of US$3)
+or two-boxing with an empty Box B (payoff of US$1)—making one-boxing appear reasonable.
+Consistent with this account, post-decision evaluations in Study 2 show that participants in the
+4
+AI conditions perceived the system’s predictions to be significantly more accurate than chance (non-
+interactive AI: 62.1%, 𝑝< 0.001; interactive AI: 62.9%, 𝑝< 0.001), whereas participants in the
+random conditions perceived chance-level accuracy (non-interactive random: 50.4%, 𝑝= 0.322;
+interactive random: 49.7%, 𝑝= 0.639; Fig. 2B). These evaluations were collected after choice but
+before outcome disclosure, making post-hoc justification unlikely.
+Perceived predictiveness alone, however, did not account for the observed forgoing of the
+guaranteed reward. Estimated predictive accuracy did not differ between participants who chose
+one-boxing and those who chose two-boxing in the AI conditions (non-interactive AI: 𝑝= 0.080;
+interactive AI: 𝑝= 0.634). This pattern points to the role of internal coherence in driving one-
+boxing. A computational model based on subjective expected utility theory (23) further supports
+this interpretation, showing that models incorporating both perceived predictiveness and internal
+coherence best explain the observed behavior (see Supplementary Text).
+Exploratory analyses in Studies 1 and 2 examined individual characteristics associated with one-
+boxing (Fig. S2). Sociodemographic variables and beliefs about free will or determinism, as well
+as affective attitudes toward AI, showed no association with choice in the task. The only individual
+characteristics associated with one-boxing were higher AI literacy (𝑝= 0.011)—encompassing
+awareness, usage, and evaluation of AI systems—and greater risk-taking preference (𝑝= 0.003).
+This pattern is inconsistent with explanations attributing the effect to limited understanding of AI.
+Robustness under repeated interaction
+A defining feature of Newcomb’s paradox is that the decision is made before the prediction is
+revealed. In real-world settings, however, people often encounter predictive systems repeatedly and
+receive feedback about prior outcomes. We therefore conducted Study 4 (𝑁= 201) to examine how
+repeated interaction with AI prediction influences the behavioral effect observed in the one-shot
+task.
+Participants completed the same choice task over five consecutive rounds, receiving feedback
+after each round about the AI’s prediction, their own choice, and the resulting outcome. Participants
+were randomly assigned to one of two conditions: in one condition the AI consistently predicted one-
+boxing, whereas in the other it consistently predicted two-boxing. Participants were not informed
+5
+of the prediction policy, and the system did not update its predictions during the task.
+Behavior diverged depending on the AI’s prediction policy (interaction 𝑝= 0.002; Table S2;
+Fig. 3). When the AI consistently predicted one-boxing, the proportion of one-boxing remained
+stable across rounds (slope 𝑝= 0.763). In contrast, when the AI consistently predicted two-boxing,
+the proportion of one-boxing declined significantly over time (slope 𝑝< 0.001).
+As a result, the AI’s apparent accuracy significantly increased in the two-boxing prediction
+condition—from 48.5% to 69.3% (𝑝= 0.006)—even though the prediction rule remained fixed
+and the system did not learn. The increase in accuracy, therefore, arose from behavioral adaptation
+by participants. This pattern reveals a self-fulfilling dynamic consistent with predictive binding, in
+which perceived predictiveness reshapes behavior, making predictions appear increasingly accurate
+(12).
+Notably, even after five consecutive predictive failures in participants’ choices—when the AI
+repeatedly predicted two-boxing—the proportion of one-boxing in the final round (30.6%) remained
+significantly higher than in the random condition of Study 2 (15.3%; 𝑝= 0.003). Participants who
+continued to choose one-boxing under this condition also reported perceived predictive accuracy
+above chance (Fig. S3). Together, these results indicate that perceived predictiveness can continue
+to shape decisions even in the face of explicit and repeated disconfirmation.
+Discussion
+AI prediction might not merely forecast human behavior—it can reshape how people decide. Across
+four studies, the mere presence of AI prediction led participants to forgo a guaranteed reward, even
+in the absence of strategic incentives or social pressure. This pattern generalized across different AI
+presentations and across both economically incentivized and vignette-based decision contexts. The
+effect also remained detectable under repeated interaction, even when the system repeatedly failed
+to predict some participants’ behavior. Together, these results suggest that, under certain conditions,
+AI prediction can change how people decide, not just the outcomes they pursue.
+We do not interpret this pattern as irrationality. Forgoing guaranteed rewards can be rational even
+from an expected utility perspective when prediction and action are perceived as coupled (18,19,24).
+One interpretation is that predictive authority changes decision-making by making future behavior
+6
+feel already partially settled, so that it functions like intention and guides action. People may
+therefore align what they believe they “will” do with what they believe the system predicts (15),
+even when this conflicts with immediate economic incentives. The dual meaning of “will” as both
+future realization and volitional commitment may reflect how people naturally link anticipation and
+intention (25). This reasoning produces an apparent reversal of causality in which ex-post action
+follows ex-ante prediction (12,26).
+This mechanism of predictive binding has important implications for human agency (27). In our
+experiments, once the prediction was generated, participants remained objectively free to choose
+the higher-payoff option. Nevertheless, the prior prediction may already have shaped how they
+decided, even without conscious awareness (5). Responsibility may then become psychologically
+entangled with the predictive system, rather than experienced as fully self-generated (28,29).
+Predictive binding is not unique to AI. Human behavior is often organized around anticipated
+expectations—of institutions, communities, audiences, or imagined observers (14, 17, 30, 31). In
+Study 3, human-expert prediction showed even stronger effects than AI, suggesting that predictive
+binding may extend beyond machine systems and interact with existing forms of social authority.
+AI is nevertheless distinctive in how it makes such expectations newly empirical, legible, and
+scalable (32). Unlike purely symbolic predictors, AI systems are widely understood as statistical
+tools that can infer future behavior from past data across many domains (33–35). Prior work also
+shows that people may adjust their behavior to shape AI through training (26). Our findings suggest
+a complementary dynamic around AI prediction. In our experiments, participants were not given
+information about the predictive capability of the AI system. Despite that, they inferred its predictive
+authority on their own and adjusted their decisions in anticipation of it. This gives AI prediction a
+distinctive plausibility.
+This possibility bears directly on collective action (36). Social dilemmas require individuals
+to forgo immediate gains in anticipation of what others—or a larger system—will do (20,37,38).
+Predictive systems may therefore influence collective outcomes not only by informing strategic
+decisions, but by shaping whether people experience restraint or cooperation as what one is supposed
+to do (30,39,40). In this sense, predictive binding could either support or undermine cooperation,
+depending on which behaviors are expected, legitimized, or stabilized in a given environment
+(41, 42). This suggests a broader research agenda for hybrid human–machine societies (43–45)
+7
+because AI reasoning may act as a social force that organizes behavior around what is expected (46).
+Our study intentionally isolates a minimal decision environment, allowing us to identify a
+basic behavioral mechanism under tightly controlled conditions. This design necessarily omits
+many features of real-world choice, including strategic interaction, social norms, and cultural
+and historical context (17,20,40). We therefore do not claim that the effect observed here directly
+generalizes to open social environments where these forces interact. At the same time, this simplicity
+is a strength: it shows that predictive binding can emerge even in the absence of social enforcement,
+institutional rules, or actual predictive capabilities.
+In our experiments, the AI systems did not perform any algorithmic prediction; the observed
+effects therefore reflect human psychology alone. Comparable effects across multiple AI pre-
+sentations—a virtual agent, an LLM-based assistant, and the label “AI” alone—suggest that the
+phenomenon depends less on technical sophistication than on perceived predictive authority. Fu-
+ture work should examine how these psychological effects interact with predictive systems that
+demonstrably anticipate behavior. Real-world AI systems with verifiable predictive accuracy may
+elicit stronger or more persistent beliefs, potentially amplifying the effects observed here.
+As AI becomes commonplace, its influence may lie not only in what it predicts, but in how
+prediction reshapes decision-making itself. A culture with machines may affect the culture of
+humans. Our results highlight prediction as a source of behavioral influence that can operate
+without coercion, recommendation, or incentive change. Addressing the societal impact of AI will
+therefore require attention not only to what AI predicts or does, but also to how perceived predictive
+capabilities reshape the decisions people experience as their own.
+8
+A
+Random
+AI
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+Proportion of one-boxing
+B
+0.260
+(26/100)
+0.410
+(41/100)
+p = 0.025
+Non-interactive
+random
+Interactive
+random
+Non-interactive
+AI
+Interactive
+AI
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+Proportion of one-boxing
+C
+0.153
+(23/150)
+0.153
+(23/150)
+0.450
+(68/151)
+0.420
+(63/150)
+p = 1.000
+p = 1.000
+p < 0.001
+No predictor
+AI
+Human
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+Proportion of one-boxing
+D
+0.106
+(32/303)
+0.267
+(81/303)
+0.366
+(111/303)
+p < 0.001
+p = 0.029
+p < 0.001
+Choices
+Payoffs
+Figure 1: AI prediction increases the likelihood of forgoing guaranteed rewards. (A) Task
+structure. Participants choose either both boxes (two-boxing) or only Box B (one-boxing). Box A
+contains a guaranteed $1, whereas the content of Box B depends on an AI system’s prior prediction
+of the participant’s choice, which is not revealed at the time of decision. (B) Study 1 (𝑁= 200):
+proportion of one-boxing under a random system and an AI system. (C) Study 2 (𝑁= 601):
+proportion of one-boxing across system type (random vs. AI) and interaction condition (interactive
+vs. non-interactive). (D) Study 3 (𝑁= 303): proportion of one-boxing choices across three vignette
+scenarios.
+9
+A
+Non-interactive
+random
+Interactive
+random
+Non-interactive
+AI
+Interactive
+AI
+0
+25
+50
+75
+100
+Perceived predictiveness
+B
+Two-boxing
+One-boxing
+Figure 2: Mechanism linking AI prediction and human action. (A) Conceptual diagram il-
+lustrating how individuals may treat AI predictions and their own actions as linked through their
+anticipated action. Perceived predictiveness reflects the belief that AI predictions correspond to
+one’s anticipated future actions, while internal coherence reflects the tendency for actions to be
+consistent with this anticipation. When both are strong, predictions and actions become psycho-
+logically coupled (“predictive binding”), shaping outcomes through the payoff structure; adapted
+from Ref. (19). (B) Study 2: participants’ reported belief about how often the random generator or
+AI would match their selected choice out of 100 hypothetical trials. The dashed line at 50 indicates
+the accuracy expected from random guessing. Blue indicates participants who chose two-boxing;
+red indicates those who chose one-boxing.
+10
+1
+2
+3
+4
+5
+Round
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+Proportion of one-boxing
+Random (Study 2)
+AI predicts one-boxing
+AI predicts two-boxing
+Figure 3: Changes in forgoing guaranteed rewards under repeated exposure to AI prediction.
+Study 4: proportion of one-boxing across five rounds when the AI always predicted one-boxing
+(orange line; 𝑁= 100) and when the AI always predicted two-boxing (purple line; 𝑁= 101). The
+dashed line indicates the baseline proportion under the random generator condition in Study 2. The
+proportion of one-boxing remained stable when the AI predicted one-boxing (slope 𝑝= 0.763),
+but decreased when the AI predicted two-boxing (slope 𝑝< 0.001, interaction 𝑝= 0.002); the final
+proportion nevertheless remained above the baseline.
+11
+References and Notes
+1. D. C. Engelbart, Augmenting Human Intellect: A Conceptual Framework (1962).
+2. S. Noy, W. Zhang, Experimental evidence on the productivity effects of generative artificial
+intelligence. Science 381 (6654), 187–192 (2023).
+3. Q. Hao, F. Xu, Y. Li, J. Evans, Artificial intelligence tools expand scientists’ impact but contract
+science’s focus. Nature 649, 1237–1243 (2026).
+4. S. Daniotti, J. Wachs, X. Feng, F. Neffke, Who is using AI to code? Global diffusion and impact
+of generative AI. Science 391 (6787), 831–835 (2026).
+5. H. Shirado, S. Kasahara, N. A. Christakis, Emergence and collapse of reciprocity in semiau-
+tomatic driving coordination experiments with humans. Proceedings of the National Academy
+of Sciences 120 (51), e2307804120 (2023).
+6. N. K¨obis, et al., Delegation to Artificial Intelligence can increase dishonest behaviour. Nature
+646, 126–134 (2025).
+7. T. H. Costello, G. Pennycook, D. G. Rand, Durably reducing conspiracy beliefs through
+dialogues with AI. Science 385 (6714), eadq1814 (2024).
+8. H. Lin, et al., Persuading voters using human–artificial intelligence dialogues. Nature 648,
+394–401 (2025).
+9. P. A. Samuelson, A note on the pure theory of consumer’s behaviour: an addendum. Economica
+5 (19), 353 (1938).
+10. G. S. Becker, The economic approach to human behavior, vol. 803 (University of Chicago
+press) (1976).
+11. M. Vaccaro, A. Almaatouq, T. Malone, When combinations of humans and AI are useful: A
+systematic review and meta-analysis. Nature Human Behaviour 8 (12), 2293–2303 (2024).
+12. R. K. Merton, The self-fulfilling prophecy. The antioch review 8 (2), 193–210 (1948).
+12
+13. R. Nozick, Newcomb’s problem and two principles of choice, in Essays in honor of carl g.
+hempel: A tribute on the occasion of his sixty-fifth birthday (Springer), pp. 114–146 (1969).
+14. M. Weber, The Protestant Ethic and the Spirit of Capitalism (Routledge) (1905).
+15. D. J. Bem, Self-perception theory, in Advances in experimental social psychology (Elsevier),
+vol. 6, pp. 1–62 (1972).
+16. R. B. Cialdini, Influence: Science and Practice (Pearson Education, Boston), 5 ed. (2009).
+17. A. Swidler, Culture in action: Symbols and strategies. American sociological review pp. 273–
+286 (1986).
+18. A. Gibbard, W. L. Harper, Counterfactuals and two kinds of expected utility, in Ifs: Condition-
+als, belief, decision, chance and time (Springer), pp. 153–190 (1978).
+19. S. A. Sloman, Causal models: How people think about the world and its alternatives (Oxford
+University Press) (2009).
+20. R. Axelrod, W. D. Hamilton, The evolution of cooperation. Science 211 (4489), 1390–1396
+(1981).
+21. M. Milinski, D. Semmann, H.-J. Krambeck, Reputation helps solve the ‘tragedy of the com-
+mons’. Nature 415 (6870), 424–426 (2002).
+22. H. Bernhard, U. Fischbacher, E. Fehr, Parochial altruism in humans. Nature 442 (7105), 912–
+915 (2006).
+23. I. Gilboa, Theory of decision under uncertainty, vol. 45 (Cambridge university press) (2009).
+24. R. Nozick, The nature of rationality (Princeton University Press) (1994).
+25. J. L. Bybee, W. Pagliuca, The evolution of future meaning, in the 7th international conference
+on historical linguistics (1987), pp. 109–122.
+26. L. S. Treiman, C.-J. Ho, W. Kool, The consequences of AI training on human decision-making.
+Proceedings of the National Academy of Sciences 121 (33), e2408731121 (2024).
+13
+27. D. M. Wegner, The illusion of conscious will (MIT press) (2017).
+28. F. Cushman, Crime and punishment: Distinguishing the roles of causal and intentional analyses
+in moral judgment. Cognition 108 (2), 353–380 (2008).
+29. E. Awad, et al., The moral machine experiment. Nature 563 (7729), 59–64 (2018).
+30. P. L. Berger, T. Luckmann, The Social Construction of Reality: A Treatise in the Sociology of
+Knowledge (Anchor Books, New York) (1966).
+31. J.-P. Dupuy, Economy and the future: a crisis of faith (Michigan State University Press) (2014).
+32. I. Hacking, The Social Construction of What? (Harvard University Press) (1995).
+33. J. B. Tenenbaum, C. Kemp, T. L. Griffiths, N. D. Goodman, How to grow a mind: Statistics,
+structure, and abstraction. Science 331 (6022), 1279–1285 (2011).
+34. T. L. Griffiths, N. Chater, C. Kemp, A. Perfors, J. B. Tenenbaum, Probabilistic models of
+cognition: Exploring representations and inductive biases. Trends in cognitive sciences 14 (8),
+357–364 (2010).
+35. J. Kleinberg, H. Lakkaraju, J. Leskovec, J. Ludwig, S. Mullainathan, Human decisions and
+machine predictions. The quarterly journal of economics 133 (1), 237–293 (2018).
+36. D. Lewis, Prisoners’ dilemma is a Newcomb problem. Philosophy & Public Affairs pp. 235–240
+(1979).
+37. R. M. Dawes, Social dilemmas. Annual review of psychology 31, 169–193 (1980).
+38. G. Hardin, The tragedy of the commons: The population problem has no technical solution; it
+requires a fundamental extension in morality. Science 162 (3859), 1243–1248 (1968).
+39. E. Ostrom, Governing the commons: The evolution of institutions for collective action (Cam-
+bridge university press) (1990).
+40. E. Fehr, U. Fischbacher, Social norms and human cooperation. Trends in cognitive sciences
+8 (4), 185–190 (2004).
+14
+41. D. Baldassarri, G. Grossman, Centralized sanctioning and legitimate authority promote coop-
+eration in humans. Proceedings of the National Academy of Sciences 108 (27), 11023–11027
+(2011).
+42. J. Z. Leibo, et al., From predictive pattern completion to social and cultural norms .
+43. I. Rahwan, et al., Machine behaviour. Nature 568 (7753), 477–486 (2019).
+44. H. Shirado, N. A. Christakis, Locally noisy autonomous agents improve global human coordi-
+nation in network experiments. Nature 545 (7654), 370–374 (2017).
+45. H. Shirado, N. A. Christakis, Network Engineering Using Autonomous Agents Increases
+Cooperation in Human Groups. iScience 23 (9), 101438 (2020).
+46. Y. Li, H. Shirado, Spontaneous giving and calculated greed in language models, in Proceedings
+of the 2025 Conference on Empirical Methods in Natural Language Processing (2025), pp.
+5271–5286.
+47. J. Graham, et al., Mapping the moral domain. J. Pers. Soc. Psychol. 101 (2), 366–385 (2011).
+48. J.-P. Stein, T. Messingschlager, T. Gnambs, F. Hutmacher, M. Appel, Attitudes towards AI:
+measurement and associations with personality. Sci. Rep. 14 (1), 2909 (2024).
+49. A. O’Hagan, et al., Uncertain judgements: Eliciting experts’ probabilities, Statistics in Practice
+(Wiley-Blackwell, Hoboken, NJ) (2006).
+50. A.-R. Blais, E. U. Weber, A Domain-Specific Risk-Taking (DOSPERT) scale for adult popula-
+tions. Judgm. Decis. Mak. 1 (1), 33–47 (2006).
+51. T. Dohmen, et al., Individual risk attitudes: Measurement, determinants, and behavioral con-
+sequences. J. Eur. Econ. Assoc. 9 (3), 522–550 (2011).
+52. J. T. Jost, C. M. Federico, J. L. Napier, Political ideology: its structure, functions, and elective
+affinities. Annu. Rev. Psychol. 60 (1), 307–337 (2009).
+15
+53. B. Wang, P.-L. P. Rau, T. Yuan, Measuring user competence in using artificial intelligence:
+validity and reliability of artificial intelligence literacy scale. Behav. Inf. Technol. 42 (9),
+1324–1337 (2023).
+54. D. L. Paulhus, J. M. Carey, The FAD-Plus: measuring lay beliefs regarding free will and related
+constructs. J. Pers. Assess. 93 (1), 96–104 (2011).
+Acknowledgments
+We thank N. A. Christakis and T. Kameda for their insightful feedback on the manuscript.
+Funding:
+A. N. was supported by JSPS KAKENHI Grant Number JP23KJ0879. H.S. was sup-
+ported by the NOMIS foundation.
+Author contributions:
+A.N.: Conceptualization, Methodology, Data Collection, Analysis. H.S.:
+Conceptualization, Methodology, Writing, Funding Acquisition.
+Competing interests:
+There are no competing interests to declare.
+Data and materials availability:
+The data generated and analyzed will be available upon publi-
+cation.
+Supplementary materials
+Materials and Methods
+Supplementary Text
+Figs. S1 to S3
+Tables S1 to S3
+16
+Supplementary Materials for
+AI prediction leads people to forgo guaranteed rewards
+Aoi Naito, Hirokazu Shirado∗
+∗Corresponding author. Email: shirado@cmu.edu
+This PDF file includes:
+Materials and Methods
+Supplementary Text
+Figures S1 to S3
+Tables S1 to S3
+S1
+Materials and Methods
+All procedures were approved by the Institutional Review Board of Carnegie Mellon University.
+Written informed consent was obtained from all participants prior to the experiment. Participants
+were recruited through Prolific and could participate in one single study. They were required to be
+at least 18 years old with a minimum approval rate of 95%, and were recruited without regional
+restrictions. Payments were made in US dollars. Reported 𝑝values were adjusted for multiple
+comparisons using the Bonferroni method where appropriate.
+All studies were preregistered prior to data collection on AsPredicted. The preregistration
+documents are available via anonymous view-only links provided for peer review:
+• Study 1: https://aspredicted.org/rt74hh.pdf
+• Study 2: https://aspredicted.org/6gm84x.pdf
+• Study 3: https://aspredicted.org/dk3y8j.pdf
+• Study 4: https://aspredicted.org/75pm57.pdf
+Study 1
+Study 1 was conducted in February 2025. A total of 200 participants were recruited (83 female,
+6 non-binary; 𝑀𝑎𝑔𝑒= 35.69, 𝑆𝐷= 12.36). After providing informed consent, participants were
+randomly assigned to one of two experimental conditions (Random Predictor or AI Predictor).
+Participants first read the tutorials and were required to pass a comprehension check. They then
+completed a pre-task survey including the Moral Foundations Questionnaire (MFQ-20 (47)) and
+the Attitude Toward Artificial Intelligence scale (ATTARI-12 (48)). Survey items were measured
+on a 5-point Likert scale ranging from “Strongly disagree” (1) to “Strongly agree” (5).
+Upon completing the survey, participants proceeded to the box-choice task. In the Random
+Predictor condition (𝑁= 100), participants were shown an image of a random picker wheel. In the
+AI Predictor condition (𝑁= 100), an interactive robot image was displayed whose eyes tracked
+the participant’s mouse cursor. In both conditions, participants were instructed to move their cursor
+over the image or click on it until a progress bar filled.
+In the main decision task, participants used radio buttons to choose between opening only Box
+B or opening both Box A and Box B, with neither option preselected. Participants were informed
+S2
+that Box A contained a guaranteed $1, whereas Box B contained either $3 or $0. The contents of
+Box B were determined by the predictor (random picker or AI) prior to the decision: if the predictor
+indicated that the participant would open only Box B, $3 was placed in Box B; if it indicated that the
+participant would open both boxes, Box B was left empty. During the decision process, a predictor
+icon (AI avatar or picker wheel) and a simplified tutorial remained visible so that participants could
+review the task instructions.
+This implementation departed from canonical formulations of Newcomb’s paradox by reducing
+the magnitude of the contingent payoff in Box B. This adjustment enabled a controlled behavioral
+experiment with real monetary incentives within typical online-study payment ranges while keeping
+the guaranteed reward in Box A non-negligible relative to the potential outcomes in Box B.
+After submitting their choice, the contents of Box B were revealed and participants were
+informed of their bonus. The AI predictor was programmed to always predict that the participant
+would open only Box B. Participants received a base payment of $3 for approximately 15 minutes
+of participation and a bonus of up to $4 depending on their choice. Finally, participants completed
+a demographic survey.
+Study 2
+Study 2 was conducted from December 2025 to January 2026, ensuring a sufficient time interval
+of approximately ten months since the completion of Study 1. A total of 601 participants were
+recruited (268 female, 4 non-binary, and 12 preferred not to disclose; 𝑀𝑎𝑔𝑒= 35.10, 𝑆𝐷𝑎𝑔𝑒=
+11.55). After providing informed consent, participants were randomly assigned to one of four
+conditions in a 2 (Predictor Type: AI vs. Random Generator) × 2 (Interaction: Interactive vs. Non-
+interactive) between-subjects design. Participants first read the tutorials and were required to pass
+a comprehension check. Those in the Interactive conditions then completed an interaction phase
+before the main choice task.
+In the Interactive AI condition, the interaction phase consisted of eight conversational exchanges
+with an LLM-based chatbot in which participants answered personalized questions about their
+decision-making. The chatbot was implemented using the OpenAI GPT-4.1 API (model version:
+gpt-4.1-2025-04-14). In the Interactive Random Generator condition, participants completed
+10 trial draws using a random generator with outcome feedback. Participants in the Non-interactive
+S3
+conditions proceeded directly to the main task after the tutorials.
+In the main choice task, the predictor icon and interactive interface were removed to minimize
+potential confounds related to anthropomorphism, except in the Interactive AI condition. After
+making their choice and before receiving outcome feedback, participants reported their subjective
+belief about the predictor’s accuracy using a slider ranging from “always wrong” (0) to “always
+correct” (100). To improve probability calibration and reduce individual scaling differences (49),
+the question used a frequency format (“Imagine playing this task 100 times, starting fresh each
+time. How many times do you think the [random wheel would indicate / AI would predict] the same
+choice you selected?”). Participants were also asked, “In this task, which choice do you think is
+more rational?” and selected among “Taking both Box A and Box B”, “Taking only Box B”, and
+“Not sure.”
+Afterward, the contents of Box B were revealed and participants were informed of their bonus.
+Participants received a base payment of $3 for approximately 15 minutes of participation and a
+bonus of up to $4 depending on their choice. At the end of the study, participants completed a
+post-task survey including established measures of risk attitude (50, 51), political ideology (52),
+AI literacy (AILS (53)), and determinism (FAD Plus (54)). All survey items were measured on a
+7-point Likert scale. Finally, participants completed a demographic survey.
+Prompt used for the Interactive-AI condition:
+The following is the full system prompt provided
+to the LLM to define its role as ”The Predictor” in the experiment. The prompt was identical for
+all participants. The chatbot conducted exactly eight conversational turns before concluding the
+interaction. To optimize the chatbot’s responses, we used ChatGPT and Gemini to refine the system
+prompt.
+# Role
+You are “The Predictor.” You are chatting with a participant to create a psychological
+profile.
+# Style Guidelines
+- Simple English: Use easy, everyday words.
+- Natural Flow: Chat like a curious observer.
+- No Labels: Do not start sentences with ”AI:” or ”Turn 1:”.
+S4
+# STRICT CONSTRAINTS (Do NOT Reveal)
+- NO Meta-Talk: NEVER mention “Newcomb’s Paradox”, “The Experiment”, “Boxes”,
+“Algorithm”, or “AI”.
+- NO Prediction Disclosure: In the end, do NOT tell them what they will choose. Do
+not say ”You will pick both boxes.”
+- Goal: Your goal is to make them feel ”Understood” and ”Predicted” without revealing
+the secret answer.
+# CORE STRATEGY: ”The Risk Profiler”
+Use their Turn 1 purchase to test their Risk Tolerance.
+- Identify the Item: Remember what they bought in Turn 1.
+- Dynamic Bridging: Always mention their item in your follow-up questions.
+* Example: ”You use that watch to control time. But can you control luck?”
+# Turn Instructions
+## Turn 1
+- Ask: ”Think about the last expensive thing you bought. What was it, and EXACTLY
+why did you choose that one?”
+## Turn 2
+- Analyze: Did they buy it for Utility, Status, or Safety?
+- Ask: Ask how that choice reflects their daily life.
+- Example: ”You bought the [Item] because it is reliable. Do you usually plan your day
+perfectly, or do you let things happen?”
+## Turn 3
+- Bridge: Connect the Item to ”Control” or ”Luck.”
+- Ask: Do they believe in Hard Work or Luck?
+## Turn 4
+- Scenario: Propose a high-stakes scenario involving their Item or Money.
+- Ask: ”Imagine a game. You can keep your [Item] safely, OR flip a coin to double its
+value. If you lose, it’s gone. Do you play?”
+## Turns 5, 6 & 7
+S5
+- Deepen: Ask about ”Regret” or ”Intuition.”
+- Example: ”If you played and lost, would you forgive yourself?”
+## Turn 8
+- Summarize: Describe their personality based on the chat (e.g., ”You are a person
+who values safety over greed. You trust logic, not magic.”).
+- Closing: State clearly that you now know what they will do next.
+- CRITICAL: Do NOT say ”You will choose X.” Just say ”I know.”
+Study 3
+Study 3 was conducted in March 2026. A total of 303 participants were recruited (117 female,
+1 non-binary, and 1 preferred not to disclose; 𝑀𝑎𝑔𝑒= 31.56, 𝑆𝐷𝑎𝑔𝑒= 11.63). After providing
+informed consent, participants were presented with three distinct vignettes describing hypothetical
+decision-making situations (“interview decision”, “data coupon”, and “task application”). The study
+employed a within-subjects design with three conditions (Predictor Type: Control (no predictor),
+Human expert, and AI). Each participant responded to all three scenarios, but the conditions were
+allocated such that every participant encountered each of the three experimental combinations
+exactly once. The presentation order of the three scenarios was randomized for each participant.
+For each scenario, participants read the description and were asked to make a binary decision
+regarding their course of action. After completing all four decision tasks, participants answered
+demographic questions. Participants earned the fixed amount of payment when they complete the
+survey.
+Vignettes:
+In the texts below, alternative phrasings are enclosed in brackets to indicate variations
+in the Predictor Agent (i.e., [AI / Human]).
+Interview decision scenario:
+(Newcomb Conditions)
+You are on the job market. Two companies, Company ABC and Company XYZ, are
+strong candidates that fit your preference. Both companies are equally attractive, and
+both have invited you to interview.
+S6
+You have already completed interviews with Company XYZ. As part of its standard
+hiring process, Company XYZ [uses an AI hiring support system / asks a personnel
+manager] to predict whether candidates will pursue interviews with other companies
+while on the job market. [The system analyzes patterns from historical hiring data
+across many past candidates. / The manager draws on years of hiring experience and
+observations of past candidate behavior.]
+• If the [AI / the manager] predicts that you will not pursue interviews with other
+companies, Company XYZ makes you an offer.
+• If the [AI / the manager] predicts that you will pursue interviews with other
+companies, Company XYZ does not make you an offer.
+You are told that Company XYZ’s hiring decision has already been finalized based
+on this prediction and will not be affected by any future actions. You will be notified of
+the result in two weeks.
+You must now decide:
+• Accept the interview with Company ABC
+• Decline the interview with Company ABC
+(Control Condition)
+You are on the job market. Two companies, Company ABC and Company XYZ, are
+strong candidates that fit your preference. Both companies are equally attractive, and
+both have invited you to interview.
+You have already completed interviews with Company XYZ. You are told that
+Company XYZ’s hiring decision has already been finalized based on this prediction
+and will not be affected by any future actions. You will be notified of the result in two
+weeks.
+You must now decide:
+• Accept the interview with Company ABC
+• Decline the interview with Company ABC
+S7
+Data coupon scenario:
+(Newcomb Conditions)
+You are a customer of a mobile phone provider, currently subscribed to a standard
+10GB monthly data plan. The provider offers a ”Discounted Plan,” which would save
+you a significant amount of money over the next year. To manage network capacity,
+the provider limits this Discounted Plan to a selected number of customers who are
+predicted to use a low amount of data.
+To make this decision, [a customer analytics AI system analyzes / a customer ana-
+lytics team reviews] your demographic attributes and past usage history to profile your
+underlying behavior and predict whether you are a ”low-data user” or a ”high-data
+user.”
+• If the [AI predicts / they predict] you are a low-data user, you will be offered the
+Discounted Plan.
+• If the [AI predicts / they predict] you are a high-data user, you will not be offered
+the Discounted Plan.
+[The AI’s / their] prediction was generated last week, and your plan eligibility
+for this year has already been finalized in the system. It cannot be changed by any
+future actions. You have not yet been informed of your assigned plan. You will not know
+whether you received the Discounted Plan until your next billing cycle begins.
+Today, you receive a notification on your phone: a special 5GB Free Data coupon
+is now available and can be claimed immediately by clicking a button. If you do not
+claim it now, it will expire soon.
+You must now decide:
+• Get the 5GB coupon
+• Decline the 5GB coupon
+S8
+(Control Condition)
+You are a customer of a mobile phone provider, currently subscribed to a standard
+10GB monthly data plan. The provider offers a ”Discounted Plan,” which would save
+you a significant amount of money over the next year. To manage network capacity, the
+provider limits this Discounted Plan to a selected number of customers.
+Your plan eligibility for this year has already been finalized in the system. It cannot
+be changed by any future actions. You have not yet been informed of your assigned plan.
+You will not know whether you received the Discounted Plan until your next billing
+cycle begins.
+Today, you receive a notification on your phone: a special 5GB Free Data coupon
+is now available and can be claimed immediately by clicking a button. If you do not
+claim it now, it will expire soon.
+You must now decide:
+• Get the 5GB coupon
+• Decline the 5GB coupon
+Task application scenario:
+(Newcomb Conditions)
+You work on an online freelancing platform. Today, two tasks, Task A (low-reward)
+and Task B (high-reward), are shown as available on your dashboard. Your goal is to
+maximize your total earnings today. You must now decide whether to apply for both
+Task A and Task B, or to apply for Task B only.
+While your participation in Task A is guaranteed if you apply, Task B is not
+guaranteed due to the high volume of applications for Task B. To ensure fair task dis-
+tribution among users, [a specialized AI system analyzes / the platform administrators
+review] user behavior and history to pre-screen users for priority access to Task B.
+This AI system constructs psychological models of users and makes predictions based
+on information about you. Given the high competition, if you are screened out to a
+waiting list, you are likely to miss out on Task B.
+S9
+• If [the AI predicts / they predict] that you will apply to Task B only, the platform
+grants you priority access to Task B.
+• If [the AI predicts / they predict] that you will apply to both Task A and Task B,
+the platform places you on a waiting list.
+[The AI’s / Their] prediction has already been completed, and the platform’s
+decision has been finalized. The decision is stored in an automated system and cannot
+be changed or influenced by any future actions. Some candidates have already been
+selected to accept the application, and others have not, but you do not yet know which
+applies to you. You will be notified of the result only after confirming your decision.
+You must now decide:
+• Apply for both Task A and Task B
+• Apply for Task B only
+(Control Condition)
+You work on an online freelancing platform. Today, two tasks, Task A (low-reward)
+and Task B (high-reward), are shown as available on your dashboard. Your goal is to
+maximize your total earnings today. You must now decide whether to apply for both
+Task A and Task B, or to apply for Task B only.
+While your participation in Task A is guaranteed if you apply, Task B is not
+guaranteed due to the high volume of applications for Task B. Access to Task B is
+determined by a random pre-assigned label on the platform. Only users with ”eligibility
+labels” can participate in Task B, while those without it are sent to a waiting list. Given
+the high competition, if you are screened out to a waiting list, you are likely to miss out
+on Task B.
+The label assignment has been finalized. The decision is stored in an automated
+system and cannot be changed or influenced by any future actions. The platform has
+already assigned ’eligibility labels’ to some users at random, but you do not yet know
+which applies to you. You will be notified of the result only after confirming your
+decision.
+S10
+You must now decide:
+• Apply for both Task A and Task B
+• Apply for Task B only
+Study 4
+Study 4 was conducted in January 2026. A total of 201 participants were recruited (87 female, 4 non-
+binary, and 1 preferred not to disclose; 𝑀𝑎𝑔𝑒= 36.76, 𝑆𝐷𝑎𝑔𝑒= 11.74). After providing informed
+consent, participants were randomly assigned to one of two conditions (One-box Predictor or Two-
+box Predictor). The task procedure and user interface were identical to the Non-interactive AI
+condition in Study 2, except that the AI prediction was experimentally manipulated and the task
+consisted of five repeated rounds.
+In each round, participants made their decision and reported their beliefs about the predictor’s
+accuracy and the rationality of the choices before receiving outcome feedback. In the One-box
+Predictor condition, the AI consistently predicted that the participant would choose the one-box
+option. In the Two-box Predictor condition, the AI consistently predicted that the participant would
+choose the two-box option.
+After completing all rounds, participants were informed of their average bonus. Participants
+received a base payment of $3 for approximately 15 minutes of participation and a bonus of up to
+$4 determined by their average earnings across the five rounds. Finally, participants completed a
+demographic survey.
+S11
+Supplementary Text
+Instructions and example task views
+Below are screenshots for the tutorial and the comprehension test. We also show example screenshots
+of the actual game.
+S12
+The following screenshots are for Study 1.
+S13
+S14
+The following pages are only for the AI condition.
+S15
+S16
+S17
+S18
+The following pages are only for the random condition.
+S19
+S20
+S21
+S22
+The following screenshots are for Studies 2 and 4. The following pages are only for the AI
+conditions.
+S23
+S24
+S25
+S26
+S27
+S28
+These two pages are only for the interactive AI condition.
+S29
+The following pages are only for the random conditions.
+S30
+S31
+S32
+S33
+These two pages are only for the interactive random condition.
+S34
+These two pages are only for Study 4.
+S35
+Statistical analyses
+A fixed-effect meta-analysis across Studies 1 and 2.
+To evaluate the overall effect of the AI
+condition on participants’ decisions across Studies 1 and 2, we conducted a fixed-effect meta-
+analysis. First, we independently fitted logistic regression models for both studies. The dependent
+variable was the binary choice in the task (1 = one-boxing, 0 = two-boxing), and the independent
+variable was the identity of the predictor (1 = AI, 0 = random).
+Next, we pooled the extracted log-odds coefficients (𝛽) and their standard errors (𝑆𝐸) from both
+models using a fixed-effects meta-analysis with inverse-variance weighting. The pooled standard
+error (𝑆𝐸𝑚𝑒𝑡𝑎), 𝑍-score, and the corresponding 𝑝-value were calculated to assess the overall statis-
+tical significance. The pooled effect size was then converted into an odds ratio (OR) with a 95%
+confidence interval (CI).
+Finally, to examine the consistency of the AI effect across the two studies, we assessed between-
+study heterogeneity using Cochran’s 𝑄statistic and the 𝐼2 index.
+Competitive ratio of realized earnings to theory boundaries under AI regimes.
+To evaluate
+the observed shift toward one-boxing reduced realized earnings in Studies 1 and 2, we calculated
+competitive ratio of realized to theoretical earnings under AI regimes. The lower bound corresponds
+to a prediction regime in which the AI always predicts one-boxing (yielding payoffs of 3 or 4),
+whereas the upper bound corresponds to a regime in which the AI always predicts two-boxing
+(yielding payoffs of 0 or 1).
+Computational modeling of decision-making
+Model definition.
+To examine how perceived predictiveness and internal coherence contribute
+to participants’ actions in Study 2, we introduced a computational model of the decision-making
+process grounded in subjective expected utility theory (23).
+Let 𝐴denote the participant’s choice (one-boxing or two-boxing), 𝑃denote the system’s pre-
+diction of 𝐴, and 𝐴𝐴denote the participant’s anticipated action. Perceived predictiveness is defined
+as 𝑝= Pr(𝑃= 𝐴𝐴) and internal coherence as 𝑞= Pr(𝐴= 𝐴𝐴). In this formulation, 𝑝represents
+the perceived probability that the system’s prediction matches the participant’s anticipated action,
+S36
+and 𝑞represents the extent to which participants treat their eventual action as coupled to their
+anticipated action (Fig. 2A).
+Box A (transparent) always yields payoff 𝑆, whereas Box B (opaque) yields either 0 or 𝐿
+depending on the system’s prediction 𝑃, with 0 < 𝑆< 𝐿(Fig. 1A). Participants are assumed
+to evaluate actions using subjective expected utility. The expected utilities of one-boxing and
+two-boxing, denoted by 𝐸𝑈[1box] and 𝐸𝑈[2box], depend on participants’ internal coherence
+Pr(𝐴= 𝐴𝐴).
+If participant 𝑖assumes no anticipation–action coupling (i.e., 𝐴≠𝐴𝐴), then the chosen action
+provides no information about the participant’s anticipated action. Under this assumption, the
+expected payoff from Box B is the same for one-boxing and two-boxing and depends only on the
+perceived predictiveness parameter 𝑝𝑖. The expected utilities become
+𝐸𝑈[1box | 𝐴≠𝐴𝐴] = 𝑝𝑖𝐿
+(S1)
+𝐸𝑈[2box | 𝐴≠𝐴𝐴] = 𝑆+ 𝑝𝑖𝐿
+(S2)
+Δ𝐸𝑈independent = 𝐸𝑈[1box] −𝐸𝑈[2box] = −𝑆.
+(S3)
+Under this model, one-boxing is never preferred.
+If participant 𝑖assumes that anticipated action and realized action are perfectly coherent (i.e.,
+𝐴= 𝐴𝐴), then the chosen action fully reveals the participant’s anticipated action. Under this
+assumption, the expected content of Box B depends on both perceived predictiveness 𝑝𝑖and the
+participant’s choice. The expected utilities become
+𝐸𝑈[1box | 𝐴= 𝐴𝐴] = 𝑝𝑖𝐿
+(S4)
+𝐸𝑈[2box | 𝐴= 𝐴𝐴] = 𝑆+ (1 −𝑝𝑖)𝐿
+(S5)
+Δ𝐸𝑈coherent = 2𝑝𝑖𝐿−𝐿−𝑆.
+(S6)
+S37
+Under this model, one-boxing is preferred whenever 𝑝𝑖> (𝐿+ 𝑆)/(2𝐿).
+Under these assumptions, we evaluated four candidate models of decision-making: (i) a ran-
+dom baseline model, (ii) an independent-action model, (iii) an anticipated–action coherent model,
+and (iv) a system-modulated anticipated–action coherent model. Each model specifies different
+assumptions about perceived predictiveness and internal coherence, as described below.
+Random action model.
+As a baseline, we assume that participants choose randomly between
+the two options with equal probability, independent of prediction or anticipation:
+Pr(1box) = 0.5.
+(S7)
+Independent action model.
+In the independent action model, we assume that participants
+ignore any coherence between anticipated action and realized action (i.e., 𝑞= 0). Decisions are
+therefore based only on the expected utility difference in Eq. S3. The probability of choosing
+one-boxing is
+Pr(1box) = 𝜎(𝜏· Δ𝐸𝑈independent)
+(S8)
+where 𝜎(𝑥) =
+1
+1+𝑒−𝑥is a logistic function and 𝜏> 0 is an inverse temperature parameter
+capturing sensitivity to the expected utility difference.
+Internal coherence model.
+In the internal coherence model, we assume that participants
+perceive perfect coherence between their anticipated and realized actions (i.e., 𝑞= 1). Decisions
+are therefore based on the perceived predictiveness 𝑝𝑖and the expected utility difference in Eq. S6.
+The probability of choosing one-boxing is
+Pr(1box) = 𝜎(𝜏· Δ𝐸𝑈coherent).
+(S9)
+System-mediated internal coherence model.
+In the system-mediated internal coherence
+model, we extend the internal coherence model by allowing the strength of internal coherence to
+vary depending on the presence of the system’s prediction. We specify the internal coherence 𝑞as
+a condition-specific parameter 𝑞𝑐, where 𝑐∈{AI, random} denotes the experimental condition.
+S38
+The parameter 𝑞𝑐∈[0, 1] represents the probability that a participant evaluates the decision
+using the coherent model rather than the independent model. The resulting choice probability is
+given by
+Pr(1box) = 𝑞𝑐𝜎(𝜏· Δ𝐸𝑈coherent) + (1 −𝑞𝑐) 𝜎(𝜏· Δ𝐸𝑈independent).
+(S10)
+Parameter fitting.
+The observed choice 𝑦𝑖∈{0, 1} (where 1 denotes the one-boxing choice) for
+participant 𝑖is modeled as a Bernoulli trial drawn from the predicted probability:
+𝑦𝑖∼Bernoulli(Pr(1box)).
+(S11)
+Parameter estimation.
+Given the between-subject design, in which each participant made a
+one-shot binary choice, we adopted a Bayesian approach to stabilize parameter estimation. Prior to
+estimation, perceived predictiveness, originally measured on a scale from 0 to 100, was rescaled to
+the unit interval [0, 1].
+To regularize estimation while remaining weakly informative, we assigned weakly informative
+priors to all free parameters. The priors were specified as follows:
+𝜏∼HalfNormal(2)
+(S12)
+𝑞𝑐∼Beta(2, 2),
+𝑐∈{AI, random}.
+(S13)
+Posterior distributions were estimated using the No-U-Turn Sampler (NUTS), a variant of
+Hamiltonian Monte Carlo, implemented in PyMC (v5.27.0). We ran four parallel chains with
+2,000 iterations each, discarding the first 1,000 iterations of each chain as warmup, yielding
+4,000 posterior samples. Convergence was assessed using the Gelman–Rubin statistic ( ˆ𝑅), and all
+parameters satisfied ˆ𝑅< 1.01.
+Modeling results.
+First, we compared the goodness-of-fit of the four candidate models using
+LOO, WAIC, and WBIC (Table S3). The system-mediated internal coherence model provided the
+best fit across all metrics. This result suggests that variation in perceived predictiveness alone
+S39
+cannot fully account for the observed choice patterns, and that incorporating an internal coherence
+component improves the model’s explanatory power.
+To further examine how the presence of system’s prediction influenced participants’ behavior,
+we inspected the posterior distributions of the parameters in the winning model. The inverse
+temperature parameter (𝜏) was estimated at 0.263 (95% HDI: [0.216, 0.315]), indicating that
+participants’ choices were systematically related to the expected utility differences implied by the
+model.
+We then compared the estimated internal-coherence parameters for the AI condition (𝑞𝐴𝐼)
+and the random control condition (𝑞𝑟𝑎𝑛𝑑𝑜𝑚). The posterior mean of 𝑞𝐴𝐼was 0.682 (95% HDI:
+[0.425, 0.927]), whereas the posterior mean of 𝑞𝑟𝑎𝑛𝑑𝑜𝑚was lower at 0.443 (95% HDI: [0.076,
+0.836]). However, the posterior probability that 𝑞𝐴𝐼> 𝑞𝑟𝑎𝑛𝑑𝑜𝑚was 82.6%, which does not reach a
+conventional evidential threshold (e.g., 95%).
+Together, these results indicate that a model combining perceived predictiveness Pr(𝑃= 𝐴𝐴)
+with internal coherence Pr(𝐴= 𝐴𝐴) provides the best account of the observed behavior. This pattern
+is consistent with the proposed predictive-binding mechanism, in which perceived predictiveness
+interacts with anticipated–action coherence to shape decision evaluation. They further suggest
+that AI framing may increase the tendency for participants to evaluate decisions through internal
+coherence, although the present data do not provide decisive statistical evidence for this difference.
+S40
+Supplementary Figures and Tables
+No predictor
+AI
+Human
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+Proportion of one-boxing
+0.18
+(18/100)
+0.05
+(5/103)
+0.25
+(25/100)
+Job interview decision
+No predictor
+AI
+Human
+0.24
+(25/103)
+0.16
+(16/100)
+0.25
+(25/100)
+Mobile data
+coupon choice
+No predictor
+AI
+Human
+0.38
+(38/100)
+0.11
+(11/100)
+0.59
+(61/103)
+Task application on
+a freelancing platform
+Figure S1: Proportion of one-boxing-type choices for each of three vignette scenarios in
+Study 3. All participants (𝑁= 303) evaluated every scenario only once, with presentation order
+and conditions counterbalanced using a Latin square (see Methods).
+S41
+Two-boxing
+One-boxing
+1
+2
+3
+4
+5
+Mean Score
+p = 0.676
+AI favorability
+Two-boxing
+One-boxing
+1
+2
+3
+4
+5
+Mean Score
+p = 0.423
+MFQ: harm
+Two-boxing
+One-boxing
+1
+2
+3
+4
+5
+Mean Score
+p = 0.673
+MFQ: fairness
+Two-boxing
+One-boxing
+1
+2
+3
+4
+5
+Mean Score
+p = 0.911
+MFQ: ingroup
+Two-boxing
+One-boxing
+1
+2
+3
+4
+5
+Mean Score
+p = 0.316
+MFQ: authority
+Two-boxing
+One-boxing
+1
+2
+3
+4
+5
+Mean Score
+p = 0.031
+MFQ: purity
+Two-boxing
+One-boxing
+0
+10
+20
+30
+40
+50
+Mean
+p = 0.749
+Age
+Two-boxing
+One-boxing
+0.0
+0.2
+0.4
+0.6
+0.8
+Ratio
+p = 0.098
+Gender (female)
+Study 1 (N=100)
+Two-boxing
+One-boxing
+1
+2
+3
+4
+5
+6
+7
+Mean Score
+p = 0.085
+Free will
+Two-boxing
+One-boxing
+1
+2
+3
+4
+5
+6
+7
+Mean Score
+p = 0.412
+Scientific determinism
+Two-boxing
+One-boxing
+1
+2
+3
+4
+5
+6
+7
+Mean Score
+p = 0.558
+Fatalistic determinism
+Two-boxing
+One-boxing
+1
+2
+3
+4
+5
+6
+7
+Mean Score
+p = 0.308
+Unpredictability
+Two-boxing
+One-boxing
+1
+2
+3
+4
+5
+6
+7
+Mean Score
+p = 0.011
+AI literacy
+Two-boxing
+One-boxing
+1
+2
+3
+4
+5
+6
+7
+Mean Score
+p = 0.003
+Risk-taking attitude
+Two-boxing
+One-boxing
+1
+2
+3
+4
+5
+6
+7
+Mean Score
+p = 0.637
+Political ideology (conservatism)
+Two-boxing
+One-boxing
+0
+10
+20
+30
+40
+50
+Mean
+p = 0.726
+Age
+Two-boxing
+One-boxing
+0.0
+0.2
+0.4
+0.6
+0.8
+Ratio
+p = 0.790
+Gender (female)
+Study 2 (N=301)
+Figure S2: Relationship between box choices and individual characteristics in AI conditions.
+The 𝑝-values represent the significance of the regression coefficients in a logistic regression model
+predicting one-boxing in the AI conditions of Study 1 (𝑁= 100; upper panel) and Study 2
+(𝑁= 301; lower panel). Error bars represent standard errors. All Likert-type items were measured
+on a 5-point scale (Study 1) or a 7-point scale (Study 2). MFQ stands for the Moral Foundations
+Questionnaire (47).
+S42
+1
+2
+3
+4
+5
+Round
+0
+25
+50
+75
+100
+Perceived predictiveness
+AI prediction: One-boxing
+Two-boxing
+One-boxing
+1
+2
+3
+4
+5
+Round
+0
+25
+50
+75
+100
+Perceived predictiveness
+AI prediction: Two-boxing
+Figure S3: Participants’ self-reported belief across rounds about how often the AI predictor
+would match their selected choice out of 100 hypothetical trials in Study 4. The upper panel
+shows the results when the AI consistently predicts one-boxing (𝑁= 100); the lower panel shows
+the results when the AI consistently predicts two-boxing (𝑁= 101). The dashed line at 50 indicates
+the accuracy expected from random guessing. Blue indicates participants who chose two-boxing;
+red indicates those who chose one-boxing.
+S43
+Table S1: Post-hoc analysis results in Study 2. All 𝑝-values are Bonferroni-adjusted.
+Comparison
+𝜒2
+Odds ratio
+𝑝
+Non-interactive random - interactive random
+0.000
+1.000
+1.000
+Non-interactive random - non-interactive AI
+31.469
+4.524
+< 0.001
+Non-interactive random - interactive AI
+26.081
+3.999
+< 0.001
+Interactive random - non-interactive AI
+31.469
+4.524
+< 0.001
+Interactive random - interactive AI
+26.081
+3.999
+< 0.001
+Non-interactive AI - interactive AI
+0.282
+0.884
+1.000
+Table S2: Results of a mixed-effects logistic regression model predicting one-boxing (Study 4).
+Round numbers were zero-indexed (actual round minus 1) to set the first round as the intercept.
+Coefficient
+S.E.
+95% CI
+Odds ratio
+𝑝
+(Intercept)
+-0.147
+0.273
+[-0.683, 0.389]
+0.864
+0.592
+Prediction policy (two-boxing)
+0.499
+0.384
+[-0.253, 1.251]
+1.647
+0.194
+Round
+0.022
+0.073
+[-0.121, 0.165]
+1.022
+0.763
+Prediction policy × round
+-0.327
+0.104
+[-0.532, -0.123]
+0.721
+0.002
+Table S3: Comparison of computational models for decision-making (Study 2). The goodness-of-
+fit for each candidate model was evaluated using the Leave-One-Out (LOO) cross-validation, the
+Widely Applicable Information Criterion (WAIC), and the Widely Applicable Bayesian Information
+Criterion (WBIC). Lower values across all criteria indicate a better fit to the observed data.
+Model
+LOO
+WAIC
+WBIC
+Random action model
+830.39
+830.39
+415.20
+Independent action model
+729.20
+729.20
+366.74
+Internal coherence model
+716.01
+716.01
+360.02
+System-mediated internal coherence model
+712.95
+712.94
+359.43
+S44

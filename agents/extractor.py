@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 # import anthropic
 from openai import OpenAI
 from pydantic import BaseModel, Field
+from pipeline.config import MAX_SOURCE_CHARS
 
 load_dotenv()
 
@@ -29,7 +30,7 @@ class ResearcherProfile(BaseModel):
     """
     researchers          : list[str]   = Field(default_factory=list)
     institution          : str         = Field(default="unknown")
-    skills               : list[str]   = Field(default_factory=list)
+    research_capabilities: list[str]   = Field(default_factory=list)
 
 
 # System Prompt
@@ -44,15 +45,38 @@ Rules:
 - Every field must be present
 - Use empty list for list fields you cannot find
 - Use "unknown" for string fields you cannot find
-- For skills extract research domains, technical skills, methods, algorithms,
-  ML frameworks, tools, and programming languages into one deduplicated list
+- Return 5-15 high-value research capabilities, normally 8-12 when the paper
+  provides enough evidence
+- Prioritize transferable research competencies, domain expertise,
+  methodological capabilities, experimental and analytical capabilities,
+  and dataset or system-building capabilities demonstrated by the authors
+- Infer capabilities only from the authors' methods, experiments, analysis,
+  implementation, and contributions in this paper
+- Exclude specific models, frameworks, programming languages, tools, and technologies
+- Exclude items merely cited, compared, or mentioned in related work
+- Exclude generic baseline activities expected in routine ML, AI, data science,
+  or computer science work, including standard data preprocessing, feature
+  engineering, hyperparameter tuning, model training, and model evaluation
+- Include a baseline activity only when it is a central research contribution,
+  the explicit subject of the paper, or uses a specialized or novel method that
+  meaningfully distinguishes the authors' research expertise
+- Express every capability as a concise canonical noun phrase, normally 2-5 words
+- Do not output sentences, contribution descriptions, or phrases beginning with
+  "development of", "application of", "use of", "analysis of", or "study of"
+- Consolidate closely related capabilities into concise canonical names
+- Prefer "AI Safety Research Strategy" over "Development of research agendas
+  for AI safety and openness"
+- Prefer "Machine Learning Benchmarking" over "Evaluation of machine learning
+  models across datasets"
+- Prefer "AI Ethics Analysis" over "Analysis of ethical concerns in AI"
+- Do not infer unsupported career-wide expertise
 - For researchers extract ALL author names exactly as they appear
 
 JSON Schema:
 {
     "researchers"          : ["list of ALL author names"],
     "institution"          : "primary institution or university",
-    "skills"               : ["research domains, technical skills, ML frameworks, tools, and programming languages"]
+    "research_capabilities": ["5-15 transferable research competencies demonstrated in the paper"]
 }
 """
 
@@ -64,7 +88,7 @@ def extract(sanitized_text: str, doc_id: str = "unknown") -> dict:
     Takes sanitized text, returns validated profile dict.
     Raises ValueError if LLM returns unparseable output.
     """
-    truncated_text = sanitized_text[:15000]
+    truncated_text = sanitized_text[:MAX_SOURCE_CHARS]
 
     # response = client.messages.create(
     #     model     = "claude-haiku-4-5",
@@ -121,7 +145,7 @@ def extract(sanitized_text: str, doc_id: str = "unknown") -> dict:
     # Remove placeholder values the LLM sometimes returns for empty fields
     PLACEHOLDER_VALUES = {"unknown", "n/a", "none", "not specified", "not mentioned", ""}
 
-    for field in ["skills", "researchers"]:
+    for field in ["research_capabilities", "researchers"]:
         profile_dict[field] = [
             item for item in profile_dict[field]
             if item.strip().lower() not in PLACEHOLDER_VALUES

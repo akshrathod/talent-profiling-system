@@ -1,0 +1,21 @@
+﻿{
+    "doc_id": "A_Benchmark_Study_of_Machine_Learning_Models_for_Online_Fake_News_Detection",
+    "researchers": [
+        "Junaed Younus Khan",
+        "Md. Tawkat Islam Khondaker",
+        "Sadia Afroz"
+    ],
+    "institution": "Bangladesh University of Engineering and Technology",
+    "research_capabilities": [
+        "Transformer fine-tuning",
+        "Hierarchical attention networks",
+        "Recurrent/convolutional hybrid architectures",
+        "Topic modeling (LDA)",
+        "Multidimensional scaling visualization",
+        "Large-scale corpus curation",
+        "Benchmark study design",
+        "Lexical and sentiment feature engineering",
+        "Word embedding integration",
+        "GPU resource profiling"
+    ]
+}

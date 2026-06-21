@@ -1,0 +1,21 @@
+﻿{
+    "doc_id": "A_Neural_Network-Evolutionary_Computational_Framework_for_Remaining_Useful_Life_",
+    "researchers": [
+        "David Laredo",
+        "Zhaoyin Chen",
+        "Oliver Sch¨utze"
+    ],
+    "institution": "University of California Merced",
+    "research_capabilities": [
+        "evolutionary algorithm design",
+        "differential evolution optimization",
+        "multi-layer perceptron design",
+        "time-series windowing techniques",
+        "remaining useful life estimation",
+        "sensor data preprocessing",
+        "piecewise degradation modeling",
+        "black-box optimization formulation",
+        "scientific computing in Python",
+        "exhaustive search benchmarking"
+    ]
+}

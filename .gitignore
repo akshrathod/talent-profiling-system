@@ -1,11 +1,14 @@
+# Python
 venv/
-.env
 __pycache__/
-*.pyc
+
+# Environment
+.env
+
+# Generated data and evaluation output
 data/raw/
 data/parsed/
 data/pipeline_results.json
 data/pipeline_debug.txt
-evaluation/ground_truth/
-.pytest_cache/
-*.egg-info/
+evaluation/predictions/
+evaluation/results/
