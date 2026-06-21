@@ -23,7 +23,7 @@ def get_driver():
 
 CONSTRAINTS = [
     "CREATE CONSTRAINT unique_researcher IF NOT EXISTS FOR (r:Researcher) REQUIRE r.name IS UNIQUE",
-    "CREATE CONSTRAINT unique_skill IF NOT EXISTS FOR (s:Skill) REQUIRE s.name IS UNIQUE",
+    "CREATE CONSTRAINT unique_research_capability IF NOT EXISTS FOR (c:ResearchCapability) REQUIRE c.name IS UNIQUE",
     "CREATE CONSTRAINT unique_institution IF NOT EXISTS FOR (i:Institution) REQUIRE i.name IS UNIQUE",
 ]
 
@@ -144,8 +144,8 @@ if __name__ == "__main__":
 
     test_queries = [
         "MERGE (r:Researcher {name: 'Test Researcher'})",
-        "MERGE (s:Skill {name: 'Test Skill'})",
-        "MERGE (r:Researcher {name: 'Test Researcher'}) MERGE (s:Skill {name: 'Test Skill'}) MERGE (r)-[:EXPERT_IN]->(s)",
+        "MERGE (c:ResearchCapability {name: 'Model Evaluation'})",
+        "MERGE (r:Researcher {name: 'Test Researcher'}) MERGE (c:ResearchCapability {name: 'Model Evaluation'}) MERGE (r)-[:RESEARCHES_IN]->(c)",
     ]
 
     result = execute_batch(test_queries, doc_id="test")

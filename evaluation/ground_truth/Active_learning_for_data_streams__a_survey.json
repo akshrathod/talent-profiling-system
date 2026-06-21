@@ -1,0 +1,20 @@
+﻿{
+    "doc_id": "Active_learning_for_data_streams__a_survey",
+    "researchers": [
+        "Davide Cacciarelli",
+        "Murat Kulahci"
+    ],
+    "institution": "Technical University of Denmark",
+    "research_capabilities": [
+        "systematic literature review methodology",
+        "active learning taxonomy construction",
+        "concept drift characterization",
+        "stream-based learning formalization",
+        "optimal experimental design theory",
+        "multi-armed bandit framework synthesis",
+        "evolving fuzzy systems analysis",
+        "semi-supervised learning integration",
+        "stream evaluation protocol design",
+        "cross-domain application mapping"
+    ]
+}

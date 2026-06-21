@@ -31,17 +31,17 @@ Your only job: convert a researcher profile JSON into valid Cypher queries.
 GRAPH SCHEMA:
 Nodes:
   (:Researcher {{name: string}})
-  (:Skill {{name: string}})
+  (:ResearchCapability {{name: string}})
   (:Institution {{name: string}})
 
 Relationships:
-  (:Researcher)-[:EXPERT_IN]->(:Skill)
+  (:Researcher)-[:RESEARCHES_IN]->(:ResearchCapability)
   (:Researcher)-[:AFFILIATED_WITH]->(:Institution)
   {"(:Researcher)-[:COLLABORATED_WITH]->(:Researcher)" if INCLUDE_COLLABORATIONS else "Do NOT generate COLLABORATED_WITH edges"}
 
 GENERATION RULES:
 1. Create a Researcher node for EVERY author in the researchers list
-2. Every author receives ALL skills from the profile
+2. Every author receives ALL research capabilities from the profile
 3. If institution is present, every author receives that institution from the profile
 4. Always MERGE on name only: MERGE (r:Researcher {{name: 'John Smith'}})
 5. Never add an id field to any node
@@ -51,9 +51,9 @@ CYPHER SYNTAX RULES - FOLLOW EXACTLY:
 7. Always use MERGE, never CREATE under any circumstances
 8. Every relationship statement must be fully self-contained with explicit node properties.
    WRONG - bare variables have no context across statements:
-     MERGE (r)-[:EXPERT_IN]->(s)
+     MERGE (r)-[:RESEARCHES_IN]->(c)
    CORRECT - both nodes explicitly defined in the same statement:
-     MERGE (r:Researcher {{name: 'X'}}) MERGE (s:Skill {{name: 'Y'}}) MERGE (r)-[:EXPERT_IN]->(s)
+     MERGE (r:Researcher {{name: 'X'}}) MERGE (c:ResearchCapability {{name: 'Y'}}) MERGE (r)-[:RESEARCHES_IN]->(c)
 9. Each string in the output array must contain exactly ONE Cypher statement
 10. Do not include semicolons
 11. Do not chain multiple statements inside a single string
@@ -61,14 +61,14 @@ CYPHER SYNTAX RULES - FOLLOW EXACTLY:
 OUTPUT RULES:
 12. Return ONLY a valid JSON array of Cypher query strings
 13. No markdown, no code blocks, no explanation, no preamble
-14. Generate in this order: researcher nodes, institution node if present, skill nodes, then all relationship statements
+14. Generate in this order: researcher nodes, institution node if present, research capability nodes, then all relationship statements
 15. Example output format:
     [
       "MERGE (r:Researcher {{name: 'John Smith'}})",
       "MERGE (i:Institution {{name: 'MIT'}})",
-      "MERGE (s:Skill {{name: 'PyTorch'}})",
+      "MERGE (c:ResearchCapability {{name: 'Machine Learning Benchmarking'}})",
       "MERGE (r:Researcher {{name: 'John Smith'}}) MERGE (i:Institution {{name: 'MIT'}}) MERGE (r)-[:AFFILIATED_WITH]->(i)",
-      "MERGE (r:Researcher {{name: 'John Smith'}}) MERGE (s:Skill {{name: 'PyTorch'}}) MERGE (r)-[:EXPERT_IN]->(s)"
+      "MERGE (r:Researcher {{name: 'John Smith'}}) MERGE (c:ResearchCapability {{name: 'Machine Learning Benchmarking'}}) MERGE (r)-[:RESEARCHES_IN]->(c)"
     ]
 """
 
@@ -91,7 +91,7 @@ def generate_cypher(profile: dict, doc_id: str = "unknown", error: str = None, f
 
     Use this profile data to fix the queries with correct values:
     Institution: {profile.get('institution', '')}
-    Skills: {json.dumps(profile.get('skills', []))}
+    Research capabilities: {json.dumps(profile.get('research_capabilities', []))}
 
     Rules:
     - Generate ONLY the fixed versions of the failed queries
@@ -183,7 +183,7 @@ if __name__ == "__main__":
     test_profile = {
         "researchers"          : ["Junaed Younus Khan", "Md. Al-Amin", "Tasnim Ahmed"],
         "institution"          : "Bangladesh University of Engineering and Technology",
-        "skills"               : ["Natural Language Processing", "Fake News Detection", "Feature Engineering", "Text Classification", "LSTM", "TensorFlow", "Keras", "scikit-learn", "Python", "R"],
+        "research_capabilities": ["Natural Language Processing", "Fake News Detection", "Machine Learning Benchmarking"],
     }
 
     # print("Testing graph agent with sample profile\n")

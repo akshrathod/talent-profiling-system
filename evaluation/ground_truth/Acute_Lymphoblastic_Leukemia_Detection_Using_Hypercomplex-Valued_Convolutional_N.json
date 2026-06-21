@@ -1,0 +1,20 @@
+﻿{
+    "doc_id": "Acute_Lymphoblastic_Leukemia_Detection_Using_Hypercomplex-Valued_Convolutional_N",
+    "researchers": [
+        "Guilherme Vieira",
+        "Marcos Eduardo Valle"
+    ],
+    "institution": "University of Campinas",
+    "research_capabilities": [
+        "hypercomplex algebra construction",
+        "Clifford algebra theory",
+        "quaternion-valued neural networks",
+        "algebraic isomorphism analysis",
+        "real-valued emulation of complex architectures",
+        "convolutional neural network design",
+        "color space encoding for neural inputs",
+        "statistical model comparison",
+        "scientific computing in Python",
+        "parameter-efficient model design"
+    ]
+}

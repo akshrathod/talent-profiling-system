@@ -1,0 +1,1357 @@
+TITLE: A Benchmark Study of Machine Learning Models for Online Fake News Detection
+AUTHORS: Junaed Younus Khan, Md. Tawkat Islam Khondaker, Sadia Afroz, Gias Uddin, Anindya Iqbal
+CATEGORIES: cs.CL, cs.IR, cs.LG, stat.ML
+PUBLISHED: 2019-05-12 17:15:11+00:00
+ABSTRACT: The proliferation of fake news and its propagation on social media has become a major concern due to its ability to create devastating impacts. Different machine learning approaches have been suggested to detect fake news. However, most of those focused on a specific type of news (such as political) which leads us to the question of dataset-bias of the models used. In this research, we conducted a benchmark study to assess the performance of different applicable machine learning approaches on three different datasets where we accumulated the largest and most diversified one. We explored a number of advanced pre-trained language models for fake news detection along with the traditional and deep learning ones and compared their performances from different aspects for the first time to the best of our knowledge. We find that BERT and similar pre-trained models perform the best for fake news detection, especially with very small dataset. Hence, these models are significantly better option for languages with limited electronic contents, i.e., training data. We also carried out several analysis based on the models' performance, article's topic, article's length, and discussed different lessons learned from them. We believe that this benchmark study will help the research community to explore further and news sites/blogs to select the most appropriate fake news detection method.
+
+FULL TEXT:
+A Benchmark Study of Machine Learning Models for Online Fake
+News Detection
+Junaed Younus Khan*1, Md. Tawkat Islam Khondaker*1, Sadia Afroz2, Gias Uddin3 and Anindya
+Iqbal1
+1Department of Computer Science and Engineering, Bangladesh University of Engineering and Technology
+2International Computer Science Institute
+3Department of Electrical and Computer Engineering, University of Calgary
+1405051.jyk@ugrad.cse.buet.ac.bd, 1405036.mtik@ugrad.cse.buet.ac.bd, sadia@icsi.berkeley.edu, gias.uddin@ucalgary.ca,
+anindya@cse.buet.ac.bd
+March 29, 2021
+Abstract
+The proliferation of fake news and its propagation on social media has become a major concern due to its ability to
+create devastating impacts. Different machine learning approaches have been suggested to detect fake news. However,
+most of those focused on a speciﬁc type of news (such as political) which leads us to the question of dataset-bias of
+the models used. In this research, we conducted a benchmark study to assess the performance of different applicable
+machine learning approaches on three different datasets where we accumulated the largest and most diversiﬁed one.
+We explored a number of advanced pre-trained language models for fake news detection along with the traditional
+and deep learning ones and compared their performances from different aspects for the ﬁrst time to the best of our
+knowledge. We ﬁnd that BERT and similar pre-trained models perform the best for fake news detection, especially
+with very small dataset. Hence, these models are signiﬁcantly better option for languages with limited electronic
+contents, i.e., training data. We also carried out several analysis based on the models’ performance, article’s topic,
+article’s length, and discussed different lessons learned from them. We believe that this benchmark study will help
+the research community to explore further and news sites/blogs to select the most appropriate fake news detection
+method.
+1
+Introduction
+Fake news can be deﬁned as a type of yellow journalism or propaganda that consists of deliberate misinformation or
+hoaxes spread via traditional print and broadcast news media or online social media [35]. With the growth of online
+news portals, social-networking sites, and other online media, online fake news has become a major concern nowadays.
+But people are often unable to spend enough time to cross-check references and be sure of the credibility of news.
+Hence, considering the scale of the users and contributors to the online media, automated detection of fake news is
+probably the only way to take remedial measures, and therefore currently receiving huge attention from the research
+community.
+Several research works have been carried out on automated fake news detection using both traditional machine
+learning and deep learning methods over the years [14, 30, 52, 56, 60, 63, 67]. However, most of them focused on de-
+tecting news of particular types (such as political). Accordingly, they developed their models and designed features
+for speciﬁc datasets that match their topic of interest. These approaches might suffer from dataset bias and perform
+poorly on news of another topic. Hence, it is important to study if these are sufﬁcient for different types of news pub-
+lished in online media by evaluating various models on different diverse datasets and comparing their performances.
+However, the existing comparative studies on fake news detection methods also focused on a speciﬁc type of dataset or
+explored a limited number of models. For example, Wang built a benchmark dataset namely, Liar, and experimented
+*The authors contribute equally to this paper. Names are sorted in alphabetical order.
+1
+arXiv:1905.04749v2  [cs.CL]  26 Mar 2021
+some existing models on it [63]. However, the length of this dataset is not sufﬁcient for neural network based advanced
+models, and some models were found to suffer from overﬁtting. Gilda explored a few machine learning approaches
+but did not evaluate any neural network-based model [21]. Recently, Gravanis et al. evaluated a number of machine
+learning models on different datasets to address the issue of dataset-bias [24]. However, they also did not explore any
+deep learning based models in their study. Moreover, very few works have been done to explore advanced pre-trained
+language models (e.g., BERT, ELECTRA, ELMo) for fake news detection [29, 32] in spite of their state-of-the-art
+performances in various natural language processing and text classiﬁcation tasks [1,22,36,38,42,44,61].
+Our study ﬁlls this gap by evaluating a wide range of machine learning approaches that include both traditional
+(e.g., SVM, LR, Decision Tree, Naive Bayes, k-NN) and deep learning (e.g., CNN, LSTM, Bi-LSTM, C-LSTM, HAN,
+Conv-HAN) models on three different datasets. We have prepared a new combined dataset containing 80k news of a
+great variety of topics (e.g., politics, economy, investigation, health-care, sports, entertainment) collecting from various
+sources. To the best of our knowledge, this is the largest dataset used for fake news detection study. We also explored
+a variety of pre-trained models, e.g., BERT [16], RoBERTa [39], DistilBERT [55], ELECTRA [11], ELMo [46] in
+our comparative analysis. To the best of our knowledge, no previous study has incorporated such advanced pre-trained
+models to compare their performance with other machine learning models on fake news detection task. In particular,
+we answer the following research questions.
+RQ1: How accurate are the traditional machine learning vs deep learning models to detect fake news?
+We ﬁnd that deep learning models generally outperform the traditional machine learning models, Among the
+traditional learning models, Na¨ıve Bayes which achieves 93% accuracy on combined corpus. Among the deep learning
+models, Bi-LSTM and C-LSTM show great promise with 95% accuracy on combined corpus.
+RQ2: Can the advanced pre-trained language models outperform the traditional and deep learning models?
+We investigated pre-trained models like BERT, DistilBERT, RoBERTa, ELECTRA, and ELMo. Overall, these
+models outperform traditional and deep learning ones. For example, the pre-trained RoBERTa shows 96% accuracy
+on combined corpus, which is more than the traditional and deep learning models. We also ﬁnd that BERT and similar
+transformer-based models (BERT, DistilBERT, RoBERTa, ELECTRA) perform better than ELMo.
+RQ3: Which model performs best with small training data?
+The superior performance of deep learning and pre-trained models we observed in our datasets could be due to
+large dataset sizes. However, the construction of a large dataset may not always be possible. We, therefore, attempted to
+understand whether smaller datasets can still be used to train the models without a considerable reduction in accuracy.
+We see that the pre-trained models can achieve high performance with very small training dataset compared to tradi-
+tional or deep learning models. For example, RoBERTa achieved over 90% accuracy with only 500 training data used
+for ﬁne-tuning while traditional and deep learning models fail to achieve even 80% accuracy with such small dataset
+(see Figure 3). In contrast, the best performing traditional learning model Na¨ıve Bayes only achieved 65% accuracy
+with a sample size of 500 training set. Therefore, our ﬁnding can be useful for electronic-resource-limited languages
+where fake news dataset collections are likely to be small in size. In such cases, based on our observations, pre-trained
+models are the best option to achieve quality performance for these languages. Note that different languages such as
+Dutch, Italian, Arabic, Bangla, etc. have pre-trained BERT models [4, 15, 47] that can be ﬁne-tuned with small fake
+news dataset to develop detection tool.
+Replication Package with code and data is shared online at https://github.com/JunaedYounusKhan51/
+FakeNewsDetection.
+Paper Organizations. The rest of this paper is structured as follows. In Section 2, we compare related research
+works. In Section 3, we describe our study setup by introducing the datasets, the features, and the models we used in
+our experiments. Section 4 presents the performance of different models on three datasets and answer three research
+questions. Section 5 compares the performance and analyzes the misclassiﬁed cases. We conclude in Section 6.
+2
+Related Work
+Related work can broadly be divided into the following categories: (1) Exploratory analysis of the characteristics of
+fake news, (2) Traditional machine learning based detection, (3) Deep learning based detection, (4) Advanced language
+model based detection, and (5) Benchmark studies.
+2
+Exploratory analysis of the characteristics of fake news
+Several research works have been done over the years on the characteristics of fake news and its’ detection. Conroy
+et al. mentioned three types of fake news: Serious Fabrications, Large-Scale Hoaxes, and Humorous Fakes [53].
+They have termed fake news as a news article that is intentionally and veriﬁably false and could mislead readers [3].
+This narrow deﬁnition is useful in the sense that it can eliminate the ambiguity between fake news and other related
+concepts, e.g., hoaxes, and satires.
+Traditional machine learning based detection
+Different traditional machine learning based approaches have been proposed for the automatic detection of fake news.
+In [57], the authors proposed to use linguistic-based features such as total words, characters per word, frequencies of
+large words, frequencies of phrases, i.e., “n-grams” and bag-of-words approaches [20], parts-of-speech (POS) tagging
+for fake news detection.
+Conroy et al. argued that simple content-related n-grams and part-of-speech (POS) tagging had been proven insuf-
+ﬁcient for the classiﬁcation task [13]. Rather, they suggested Deep Syntax analysis using Probabilistic Context-Free
+Grammars (PCFG) following another work by Feng et al. [19] to distinguish rule categories (i.e., lexicalized, non-
+lexicalized, parent nodes, etc.) for deception detection with 85-91% accuracy. However, Shlok Gilda reported that
+while bi-gram TF-IDF yielded highly effective models for detecting fake news, the PCFG features had little to add to
+the models’ efﬁcacy [21].
+Many research works also suggested the use of sentiment analysis for deception detection as some correlation
+might be found between the sentiment of the news article and its type. Reference [52] proposed expanding the possi-
+bilities of word-level analysis by measuring the utility of features like part of speech frequency, and semantic categories
+such as generalizing terms, positive and negative polarity (sentiment analysis).
+Cliche described the detection of sarcasm on twitter using n-grams, words learned from tweets speciﬁcally tagged
+as sarcastic [12]. His work also included the use of sentiment analysis as well as identiﬁcation of topics (words that
+are often grouped together in tweets) to improve prediction accuracy.
+Deep learning based detection
+Several research works used deep learning models to detect fake news. Wang et al. built a hybrid convolutional neural
+network model that outperforms other traditional machine learning models [63]. Rashkin et al. performed an extensive
+analysis of linguistic features and showed promising result with LSTM [50]. Singhania et al. proposed a three-level
+hierarchical attention network, one each for words, sentences, and the headline of a news article [58]. Ruchansky et al.
+created the CSI model where they have captured text, the response of an article, and the source characteristics based
+on users’ behaviour [54].
+Among the recent works, Shu et al. argued that a critical aspect of fake news detection is the explainability of such
+detection in [56]. The authors developed a sentence-comment co-attention sub-network to exploit both news contents
+and user comments. In this way, the authors focused on jointly capturing explainable check-worthy sentences and user
+comments for fake news detection. In the work [30], the authors developed a multimodal variational auto-encoder
+by using a bi-modal variational auto-encoder coupled with a binary classiﬁer for the task of fake news detection.
+The authors claimed that this end-to-end network utilizes the multimodal representations obtained from the bi-modal
+variational auto-encoder to classify posts as fake or not. Zhou et al. focused on studying the patterns of spreading
+of fake news in social networks, and the relationships among the spreaders [67]. Hamdi et al. proposed a hybrid
+approach to detect misinformation in Twitter [25]. The authors extracted user characteristics using node2vec to verify
+the credibility of the contents.
+Advanced language model based detection
+Currently, Advanced pre-trained language models (i.e., BERT, ELECTRA, ELMo) are receiving great attention for
+several natural language tasks including text classiﬁcation [1,22,36,38,42,44,61]. However, only a few studies have
+explored them for fake news detection. For example, Jwa et al. detected fake news by analyzing the relationship
+between the headline and the body text of news [29]. The authors claimed that the deep-contextualizing nature of
+BERT improves F-score by 0.14 over the previous state-of-the-art models. Kula et al. presented a hybrid architecture
+3
+Table 1: Comparison between our benchmark study and prior benchmark studies
+Theme
+Prior Benchmark Study
+Limitations
+Our Benchmark Study
+Experiment
+and
+Result
+Bondielli et al. surveyed
+the different approaches
+to automatic detection of
+fake news in the recent
+literature
+[6].
+They did not run any
+experiments and
+did not report any
+results.
+We experimented with
+all the models and
+analyzed their
+performances.
+Dwivedi et al. presented
+a literature survey on
+various fake news
+detection methods
+[17].
+Zhang et al. presented an
+overview of the existing
+datasets and fake news
+detection approaches
+[66].
+Dataset
+Length
+and
+Diversity
+Wang experimented with
+some existing models
+on their benchmark
+dataset namely, Liar
+[63].
+They evaluated the
+models only on one
+dataset. Moreover,
+the length of the
+dataset was not
+sufﬁcient, and some
+models were found
+to suffer from
+overﬁtting.
+We evaluated all the
+methods on three
+different and diverse
+datasets.
+Range of
+Models
+Explored
+Gilda explored a few
+machine learning
+approaches for fake news
+detection
+[21].
+They did not evaluate
+any deep learning
+based model.
+We explored deep
+learning and advanced
+pre-trained language
+models along with
+traditional ones.
+Gravanis et al. evaluated
+a number of machine
+learning models on
+different datasets
+[24].
+Oshikawa et al. compared
+various existing methods
+for fake news detection
+on different datasets
+[43].
+They did not explore
+advanced language
+models such as BERT,
+ELECTRA, ELMo, etc
+4
+Table 2: Properties of Datasets
+Dataset
+#Total
+Data
+#Fake
+News
+#Real
+News
+Avg. Length of
+News Articles
+(in words)
+Topic(s)
+LIAR
+12791
+5657
+7134
+18
+Politics
+Fake or Real News
+6335
+3164
+3171
+765
+Politics
+(2016 USA election)
+Combined Corpus
+79548
+38859
+40689
+644
+Politics, Economy,
+Investigation, Health,
+Sports, Entertainment
+connecting BERT with RNN to tackle the impact of fake news [32]. Lee et al. worked on hyperpartisan dataset and
+leveraged BERT on semi-supervised pseudo-label dataset [34].
+Benchmark studies
+While most of the existing researches have focused on deﬁning the types of fake news and suggesting different ap-
+proaches to detect them, very few studies are carried out to compare such approaches independently on different
+datasets. Among the categories, the benchmark-based studies are the most similar to our study. Table 1 compares our
+work with the previous benchmark-based studies along three themes: (1) experimental setup and results, (2) dataset
+length and diversity, and (3) range of models explored. We discuss the related work below.
+Wang et al. compared the performance of SVM, LR, Bi-LSTM, and CNN models on their proposed dataset “LIAR”
+[63]. Oshikawa et al. compared various machine learning models (e.g., SVM, CNN, LSTM) for fake news detection on
+different datasets [43]. Gravanis et al. compared several traditional machine learning models (i.e., k-NN, Decision Tree,
+Naive Bayes, SVM, AdaBoost, Bagging) for fake news detection on different datasets [24]. Dwivedi et al. presented
+a literature survey on various fake news detection methods [17]. Zhang et al. presented a comprehensive overview of
+the existing datasets and approaches proposed for fake news detection in previous literature [66].
+In summary, these few existing comparative studies lack in terms of the range of evaluated models and the diversity
+of the used datasets. Moreover, a complete exploration of the advanced pre-trained language models for fake news
+detection and comparison among them and with other models (i.e., traditional and deep learning) were missing in
+previous works. The benchmark study presented in this paper is focused on dealing with the above issues. We extend
+the state-of-the-art research in fake news detection by offering a comprehensive an in-depth study of 19 models (eight
+traditional shallow learning models, six traditional deep learning models, and ﬁve advanced pre-trained language
+models).
+3
+Study Setup
+In this section, we ﬁrst introduce the datasets used in our study and discuss how we preprocess those (Section 3). Then
+we discuss different features that we used in our models in Section 3. Finally, we discuss the traditional learning, deep
+learning and pre-trained models that we investigated in our study (Section 3). Finally, we discuss the performance
+metrics we used to evaluate the models and the train and test data settings in Section 3.
+Studied Datasets
+In this comparative study, we make use of three following datasets. Table 2 shows the detailed statistics of them. We
+describe the datasets below.
+5
+Liar
+Liar1 is a publicly available dataset that has been used in [63]. It includes 12.8K human-labeled short statements from
+POLITIFACT.COM. It comprises six labels of truthfulness ratings: pants-ﬁre, false, barely-true, half-true, mostly-true,
+and true. In our work, we try to differentiate real news from all types of hoax, propaganda, satire, and misleading news.
+Hence, we mainly focus on classifying news as real and fake. For the binary classiﬁcation of news, we transform these
+labels into two labels. Pants-ﬁre, false, barely-true are contemplated as fake and half-true, mostly-true, and true are as
+true. Our converted dataset contains 56% true and 44% fake statements. This dataset mostly deals with political issues
+that include statements of democrats and republicans, as well as a signiﬁcant amount of posts from online social media.
+The dataset provides some additional meta-data like the subject, speaker, job, state, party, context, history. However,
+in the real-life scenario, we may not have this meta-data always available. Therefore, we experiment on the texts of
+the dataset using textual features.
+Fake or Real News
+Fake or real news dataset is developed by George McIntire. The fake news portion of this dataset was collected from
+Kaggle fake news dataset2 comprising news of the 2016 USA election cycle. The real news portion was collected from
+media organizations such as the New York Times, WSJ, Bloomberg, NPR, and the Guardian for the duration of 2015
+or 2016. The GitHub repository of the dataset includes around 6.3k news with an equal allocation of fake and real
+news, and half of the corpus comes from political news.
+Combined Corpus
+Apart from the other two datasets, we have built a combined corpus that contains around 80k news among which
+51% are real, and 49% are fake. One important property of this corpus is that it incorporates a wide range of topics
+including national and international politics, economy, investigation, health-care, sports, entertainment, and others. To
+demonstrate the topic diversity, we show the inter-topic distances3 of our combined corpus using LDA-based (Latent
+Dirichlet Allocation) topic modeling [5] in Figure 1. Based on the empirical analysis of inter-topic distances, we
+divided the dataset into ten clusters (circles) where each cluster represents a topic. The coordinates of each topic
+cluster (circle) were measured following the MDS (Multidimensional Scaling) algorithm [9]. X-axis (PC1) and Y-axis
+(PC2) maintained an aspect ratio to 1 to preserve the MDS distances. We used Jensen-Shannon divergence [37] to
+compute distances between topics. The area of a cluster was calculated by the portion of tokens that respective topic
+generated compared to the total tokens in the corpus. We named the topic of a cluster based on the most relevant terms
+representing that cluster. The most relevant terms were determined on the basis of frequency. For example, the most
+relevant (i.e., most frequent) terms for cluster-7 are ‘Trump’, ‘Clinton’, ‘Election’, ‘Campaign’, etc (Figure 1). Hence,
+the news of this cluster represents the 2016 US election. On the other hand, the most relevant terms for cluster-3 are
+’Bank’, ’Job’, ’Financial’, ’Tax’, ’Market’, etc. Thus, this cluster is related to the Economy. Additionally, overlapping
+of clusters (e.g., Economy and Politics) indicates shared relevant words (e.g., ‘Government’, ‘People’) between them.
+We have collected news from several sources of the same time domain mostly from 2015 to 2017 4,5,6. Multiple types
+of fake news such as hoax, satire, and propaganda have come from The Onion, Borowitz Report, Clickhole, American
+News, DC Gazette, Natural News, and Activist Report. We have collected the real news from the trusted sources
+like the New York Times, Breitbart, CNN, Business Insider, the Atlantic, Fox News, Talking Points Memo, Buzzfeed
+News, National Review, New York Post, the Guardian, NPR, Gigaword News, Reuters, Vox, and the Washington Post.
+Data Preprocessing
+Before feeding into the models, raw texts of news required some preprocessing. We ﬁrst eliminated unnecessary IP
+and URL addresses from our texts. The next step was to remove stop words. After that, we cleaned our corpus by
+correcting the spelling of words. We split every text by white-space and remove sufﬁces from words by stemming
+1https://www.cs.ucsb.edu/˜william/data/liar_dataset.zip
+2https://www.kaggle.com/mrisdal/fake-news
+3generated using pyLDAvis: https://pyldavis.readthedocs.io/
+4https://homes.cs.washington.edu/˜hrashkin/factcheck.html
+5https://github.com/suryattheja/Fake-news-detection
+6https://www.kaggle.com/snapcrack/all-the-news
+6
+Figure 1: Inter-topic distance map of Combined Corpus.
+them. Finally, we rejoined the word tokens by white-space to present our clean text corpus which had been tokenized
+later for feeding into the models.
+Studied Features
+We used lexical and sentiment features, n-gram, and Empath generated features for traditional machine learning mod-
+els, and pre-trained word embedding for deep learning models.
+Lexical and Sentiment Features
+Several studies have proposed to use lexical and sentiment features for fake news detection [50, 52, 57]. For lexical
+features, we used word count, average word length, article length, count of numbers, count of parts of speech, and
+count of exclamation mark. We calculated the sentiment (i.e., positive and negative polarity) of every article and used
+them as sentiment features.
+n-gram Feature
+Word-based n-gram was used to represent the context of the document and generate features to classify the document
+as fake and real [2,7,23,50,62,65]. We used both uni-gram and bi-gram features in this benchmark and evaluated their
+effectiveness.
+Empath Generated Features
+Empath is a tool that can generate lexical categories from a given text using a small set of seed terms [18]. Using
+Empath, we calculated these categories (e.g., violence, crime, pride, sympathy, deception, war) for every news data and
+used them as features to identify key information in a news article. Since it has been used in literature for understanding
+deception in review systems [18], we feel motivated to investigate their contribution in this context.
+Pre-trained Word Embedding
+For neural network models, word embeddings were initialized with 100-dimensional pre-trained embeddings from
+GloVe [45]. GloVe is an unsupervised learning algorithm for obtaining vector representations for words. It was trained
+on a dataset of one billion tokens (words) with a vocabulary of 400 thousand words.
+7
+Studied Models
+We experimented various traditional, deep learning and pre-trained language models in this work. Here, we describe
+all the models that we studied.
+Traditional Machine Learning Models
+We built our ﬁrst three models using SVM (Support Vector Machine), LR (Logistic Regression), and Decision Tree
+with the lexical and sentiment features. Among the four main variants of the SVM kernel, we used the linear one.
+We also evaluated ensemble learning method like AdaBoost combining 30 decision trees with lexical and sentiment
+features. Next, we explored the Multinomial Naive Bayes classiﬁer with the n-gram features. We used the Empath
+generated features with k-NN (k-Nearest Neighbors) classiﬁer. We use the square-root of the total training data size as
+k as suggested by Lall and Sharma [33]. Hence, the value of k was chosen to be 70, 90, and 250 for Liar, Fake or Real,
+and Combined Corpus respectively.
+Deep Learning Models
+In this study, we have evaluated six deep learning models for fake news detection including CNN, LSTM, Bi-LSTM,
+C-LSTM, HAN, and Convolutional HAN. The models are described below with their experimental setups.
+(1) CNN: One dimensional convolutional neural network can extract features and classify texts after transforming
+words in the sentence corpus into vectors [31].The one-dimensional convolutional model was initialized with 100-
+dimensional pre-trained GloVe embeddings. It contained 128 ﬁlters of ﬁlter size 3 and a max pooling layer of pool
+size 2 is selected. A dropout probability of 0.8 was preserved which was expunged for Combined Corpus. The model
+was compiled with ADAM optimizer with a learning rate of 0.001 to minimize binary cross-entropy loss. A sigmoid
+activation function was used for the ﬁnal output layer. A batch size of 64 and 512 was used for training the datasets
+over 10 epochs.
+(2) LSTM: Our LSTM model was pre-trained with 100-dimensional GloVe embeddings. The output dimension and
+time steps were set to 300. ADAM optimizer with learning rate 0.001 was applied to minimize binary cross-entropy
+loss. Sigmoid was the activation function for the ﬁnal output layer. The model was trained over 10 epochs with batch
+size 64 and 512.
+(3) Bi-LSTM: Usually, news that is deemed as fake is not fully comprised of false information, rather it is blended
+with true information. To detect the anomaly in a certain part of the news, we need to examine it both with previous
+and next events of action. We constructed a Bi-LSTM model to perform this task. Bi-LSTM was initialized with 100-
+dimensional pre-trained GloVe embeddings. The output dimension of 100 and time steps of 300 was applied. ADAM
+optimizer with a learning rate of 0.001 was used to minimize binary cross-entropy loss. The training batch size was set
+to 128 and loss over each epoch was observed with a callback. The learning rate was reduced by a factor of 0.1. We
+also used an early stop to monitor validation accuracy to check whether the accuracy was deteriorating for 5 epochs.
+The loss of the binary cross-entropy of the model was minimized by ADAM with a learning rate of 0.0001.
+(4) C-LSTM: The C-LSTM based model contained one convolutional layer and one LSTM layer. We used 128
+ﬁlters with ﬁlter size 3 on top of which a max pooling layer of pool size 2 was set. We fed it to our LSTM architecture
+with 100 output dimensions and dropout 0.2. Finally, we used sigmoid as the activation function of our output layer.
+(5) HAN: We used a hierarchical attention network consisting of two attention mechanisms for word-level and
+sentence-level encoding. Before training, we set the maximum number of sentences in a news article as 20 and the
+maximum number of words in a sentence as 100. In both level encoding, a bidirectional GRU with output dimension
+100 was fed to our customized attention layer. We used word encoder as input to our sentence encoder time-distributed
+layer. We optimized our model with ADAM that learned at a rate of 0.001.
+(6) Convolutional HAN: In order to extract high-level features of the input, we incorporated a one-dimensional
+convolutional layer before each bidirectional GRU layer in HAN. This layer selected features of each tri-gram from
+the news article before feeding it to the attention layer.
+8
+Figure 2: Fine-tuning of pre-trained language models.
+Advanced Language Models
+Here, we ﬁrst discuss the advanced language models that we used in this study and then describe their experimental
+setup.
+(1) BERT: BERT (Bidirectional Encoder Representations from Transformers) is a pre-trained model which was
+designed to learn contextual word representations of unlabeled texts [16]. Among the two versions of BERT (i.e.,
+BERT-Base and BERT-Large) proposed originally, we used BERT-Base for this study considering the huge time and
+memory requirements of the BERT-Large model. The BERT-Base model has 12 layers (transformer blocks) with 12
+attention heads and 110 million parameters.
+(2) RoBERTa: RoBERTa (Robustly optimized BERT approach), originally suggested in [39], is the second pre-
+trained model that we experimented. It achieves better performance than original BERT models by using larger mini-
+batch sizes to train the model for a longer time over more data. It also removes the NSP loss in BERT and trains on
+longer sequences. Moreover, it dynamically changes the masking pattern applied to the training data.
+(3) DistilBERT: DistilBERT [55] is a smaller, faster, cheaper, and lighter version of original BERT which has
+40% fewer parameters than the BERT-Base model. Though original BERT models perform better, DistilBERT is more
+appropriate for production-level usage due to its’ low resource requirements. Considering potential users of non-proﬁt
+blogs and online media, we think low-resource models have a good appeal. Hence, this is worth investigating.
+(4) ELECTRA: ELECTRA (Efﬁciently Learning an Encoder that Classiﬁes Token Replacements Accurately) [11]
+is a transformer model for self-supervised language representation learning. This model pre-trained with the use of
+another (small) masked language model. First, a language model takes an input text and randomly masked the text with
+generated input token. Then, ELECTRA models are trained to distinguish ”real” input tokens vs ”fake” input tokens
+generated by the former language model. At small scale, ELECTRA can achieve strong results even when trained on
+a single GPU.
+(5) ELMo: ELMo (Embeddings from Language Models) is a contextualized word representation learned from a
+deep bidirectional language model that is trained on a large text corpus [46]. We used the original pre-trained ELMo
+model proposed by the authors that has 2 bi-LSTM layers and 93.6 million parameters.
+Experimental Setup of Advanced Language Models:
+We appended a classiﬁcation head composed of a single linear layer on the top of the pre-trained advanced language
+models. The architecture of the classiﬁer head is kept simple to focus on what information can readily be extracted from
+these pre-trained models. We used the respective pre-trained embeddings of the corresponding models (e.g., BERT
+embeddings, ELECTRA embeddings, ELMo embeddings) as the input of the classiﬁcation heads and ﬁne-tuned them
+for the fake news detection task (Figure 2). We trained them on all the datasets for 10 epochs with a mini-batch size
+of 32. We applied early stop to prevent our models from overﬁtting [49]. Validation loss was considered as the metric
+of the early stopping while delta is set to zero [48]. We set the maximum sequence length of the input data to 300.
+For the Combined Corpus dataset, we conﬁgured the gradient accumulation steps as 2 due to the large dataset size.
+We used AdamW optimizer [40] with the learning rate set to 4e-5, ß1 to 0.9, ß2 to 0.999, and epsilon to 1e-8 [16,59].
+Finally, we used binary cross-entropy to calculate the loss [51]. We performed the experiments on NVIDIA Tesla T4
+GPU provided by Google Colab.
+Evaluation Metrics
+We created a standard training and test set for each of the three datasets by splitting it in an 80:20 ratio so that different
+models can be evaluated on the same ground. For the ﬁrst two datasets (i.e., Liar, Fake or Real), we did the split
+9
+randomly as they only contain one type of news. On the other hand, as the Combined Corpus covers a wide variety of
+topics, we took 80% (20%) data from each topic and include them in train (test) set to maintain a balanced distribution
+of every topic in training and test data.
+We report the performance of each model in terms of accuracy, precision, recall, and F1-score. For precision, recall,
+and F1-score, we considered the macro-average of both class.
+In our experiment, we considered real news as ‘positive class’, and fake news as ‘negative class’. Hence, True
+Positive (TP) means the news is actually real, and also predicted as real while False Positive (FP) indicates that the
+news is actually false, but predicted as real. True Negative (TN) and False Negative (FN) imply accordingly. Accuracy
+is the number of correctly predicted instances out of all instances.
+Accuracy(A) =
+TP + TN
+TP + FN + TN + FP
+(1)
+Precision is the ratio between the number of correctly predicted instances and all the predicted instances for a given
+class. For real and fake classes, we presented this metric as P(R) and P(F) respectively. Hence, the macro-average
+precision, P will be the average of P(R) and P(F).
+P(R) =
+TP
+TP + FP , P(F) =
+TN
+TN + FN , P = P(R) + P(F)
+2
+(2)
+Recall represents the ratio of the number of correctly predicted instances and all instances belonging to a given
+class. For real and fake classes, we presented this metric as R(R) and R(F) respectively. Hence, the macro-average
+recall, R will be the average of R(R) and R(F).
+R(R) =
+TP
+TP + FN , R(F) =
+TN
+TN + FP , R = R(R) + R(F)
+2
+(3)
+F1-score is the harmonic mean of the precision and recall.
+F1 = 2 · P · R
+P + R
+(4)
+4
+Study Results
+In this section, we answer three research questions:
+RQ1. How accurate are the traditional and deep learning models to detect fake news in our datasets?
+RQ2. Can the advanced pre-trained language models outperform the traditional and deep learning models?
+RQ3. Which model performs best with small training data?
+Previous studies on fake news detection mainly focused on traditional machine learning models. Therefore, it is im-
+portant to compare their performance with the deep learning models. We address this concern in RQ1. In particular,
+the goal of RQ1 is to compare the performance of different traditional machine learning models (e.g., SVM, Naive
+Bayes, Decision Tree) and deep learning models (e.g., CNN, LSTM, Bi-LSTM) on fake news detection. Consider-
+ing the great success of pre-trained advanced language models on various text classiﬁcation tasks, it is important to
+investigate how these models perform on fake news detection compared to the traditional and deep learning models.
+The answers to RQ2 will offer insights into whether and how the pre-trained advanced language models are useful to
+detect fake news. A common issue for any supervised learning problem is the limitation of labeled data. Intuitively,
+the more performance we can get with less amount of labeled data, the easier it would be to investigate and develop
+machine learning models to facilitate fake news detection. Therefore, as part of RQ3, we investigate the performance
+of the models we used in our study on smaller samples of our datasets.
+10
+Table 3: Performance of Traditional Machine Learning Models
+Datasets
+Liar
+Fake or Real News
+Combined Corpus
+Model
+Feature
+A
+P
+R
+F1
+A
+P
+R
+F1
+A
+P
+R
+F1
+SVM
+Lexical
+.56
+.56
+.56
+.48
+.67
+.67
+.67
+.67
+.71
+.78
+.71
+.72
+SVM
+Lexical
++Sentiment
+.56
+.57
+.56
+.48
+.66
+.66
+.66
+.66
+.71
+.77
+.71
+.72
+LR
+Lexical
++Sentiment
+0.56
+.56
+.56
+.51
+.67
+.67
+.67
+.67
+.76
+.79
+.76
+.77
+Decision
+Tree
+Lexical
++Sentiment
+.51
+.51
+.51
+.51
+.65
+.65
+.65
+.65
+.67
+.71
+.69
+.7
+AdaBoost
+Lexical
++Sentiment
+.56
+.56
+.56
+.54
+.72
+.72
+.72
+.72
+.73
+.74
+.73
+.74
+Naive
+Bayes
+Unigram
+(TF-IDF)
+.60
+.60
+.60
+.57
+.82
+.82
+.82
+.82
+.91
+.91
+.91
+.91
+Naive
+Bayes
+Bigram
+(TF-IDF)
+.60
+.59
+.60
+.59
+.86
+.86
+.86
+.86
+.93
+.93
+.93
+.93
+k-NN
+Empath
+Features
+.54
+.54
+.54
+.54
+.71
+.72
+.71
+.71
+.71
+.70
+.70
+.70
+How accurate are the traditional and deep learning models to detect fake news in our datasets?
+(RQ1)
+In Table 3, we report the performances of various traditional machine learning models in detecting fake news. We
+observe that among the traditional machine learning models, Naive Bayes with n-gram features performs the best with
+93% accuracy on our Combined Corpus. We also ﬁnd that the addition of sentiment features with lexical features does
+not improve the performance considerably. For lexical and sentiment features, SVM and LR models perform better
+than other traditional machine learning models as suggested by most of the prior studies [10, 52, 60, 63, 64]. On the
+other hand, Empath generated features do not show promising performance for fake news detection, although they had
+been used earlier for understanding deception in review systems [18].
+In Table 4, we report the performances of different deep learning models. The baseline CNN model is considered
+as the best model for Liar in [63], but we ﬁnd it to be the second-best among all the models. LSTM-based models are
+most vulnerable to overﬁtting for this dataset which is reﬂected by its performance. Although Bi-LSTM is also a vic-
+tim of overﬁtting on the Liar dataset as mentioned in [63], we ﬁnd it to be the third-best neural network-based model
+according to its performance on the dataset. The models successfully used for text classiﬁcation like C-LSTM, HAN
+hardly surmount the overﬁtting problem for the Liar dataset. Our hybrid Conv-HAN model exhibits the best perfor-
+mance among the neural models for the Liar dataset with 0.59 accuracy and 0.59 F1-score. LSTM-based models show
+an improvement on the Fake or Real dataset whereas CNN and Conv-HAN continue their impressive performance.
+LSTM-based models exhibit their best performance on our Combined Corpus where both Bi-LSTM and C-LSTM
+achieve 0.95 accuracy and 0.95 F1-score. CNN and all hierarchical attention models including Conv-HAN maintain
+a decent performance on this dataset with more than 0.90 accuracy and F1-score. This result indicates that, although
+neural network-based models may suffer from overﬁtting for a small dataset (LIAR), they show high accuracy and
+F1-score on a moderately large dataset (Combined Corpus).
+We ﬁnd that the traditional machine learning models are generally outperformed by the deep learning models in
+fake news detection, i.e., the overall accuracy of the traditional models is much lower than the deep learning ones (Table
+11
+Table 4: Performance of Deep Learning Models (using Glove word embedding as feature)
+Datasets
+Liar
+Fake or Real News
+Combined Corpus
+Model
+A
+P
+R
+F1
+A
+P
+R
+F1
+A
+P
+R
+F1
+CNN
+.58
+.58
+.58
+.58
+.86
+.86
+.86
+.86
+.93
+.93
+.93
+.93
+LSTM
+.54
+.29
+.54
+.38
+.76
+.78
+.76
+.76
+.93
+.94
+.93
+.93
+Bi-LSTM
+.58
+.58
+.58
+.57
+.85
+.86
+.85
+.85
+.95
+.95
+.95
+.95
+C-LSTM
+.54
+.29
+.54
+.38
+.86
+.87
+.86
+.86
+.95
+.95
+.95
+.95
+HAN
+.57
+.57
+.57
+.56
+.87
+.87
+.87
+.87
+.92
+.92
+.92
+.92
+Conv-HAN
+.59
+.59
+.59
+.59
+.86
+.86
+.86
+.86
+.92
+.92
+.92
+.92
+3, 4). The difference is more prominent on large dataset, i.e., Combined Corpus which highlights the fact that deep
+learning models are prone to overﬁtting on small dataset. However, despite being a traditional model, Naive Bayes
+(with n-gram) shows great promise in fake news detection which almost reaches the performance of deep learning
+models and achieves 93% accuracy on Combined Corpus. However, further analysis indicates that the performance of
+Naive Bayes reaches saturation at some point (2.5K training data) and after that improves very slowly with the increase
+of sample size, while the performance of the deep learning model, i.e., Bi-LSTM has a greater rate of improvement
+with the increase of training data (see Figure 3). So it can be deduced that with enough training samples, deep learning
+models might be able to outperform Naive Bayes.
+Summary of RQ1. How accurate are the traditional vs deep learning models to detect fake news? The deep
+learning models generally outperform the traditional learning models. The difference of performance between deep
+learning and traditional models depends on the dataset length. While deep learning models are vulnerable to
+overﬁtting on a small dataset, traditional models like Naive Bayes can show impressive performance on this type of
+dataset. As the dataset length increases, the performance of the deep learning models also improves, and as a result,
+the deep learning models outperform the traditional models on a large dataset.
+Can the advanced pre-trained language models outperform the traditional and deep learning
+models? (RQ2)
+Table 5 shows the performances of different pre-trained language models on three datasets. While these models incor-
+porate more complex architectures, they do not suffer from overﬁtting on a smaller dataset as much as the deep learning
+models do as previously discussed. This is because these models use pre-trained weights in all the layers except the
+ﬁnal classiﬁcation layers. As a result, they do not need a large dataset for ﬁne-tuning their complex architecture.
+Therefore, all the pre-trained models we evaluated outperform the other traditional ML and deep learning-based mod-
+els having F1-score no less than 0.62 on the Liar dataset and no less than 0.95 on the Fake or Real News dataset.
+Given the large dataset (i.e., Combined Corpus), these pre-trained models achieve better performance in the fake news
+detection task. We observe that among the pre-trained language models, the BERT and transformer-based models (i.e.,
+BERT, RoBERTa, DistilBERT, ELECTRA) are generally better than the other one (i.e., ELMo). For example, Dis-
+tillBERT (66M parameters), BERT (110M parameters), Electra (110M parameters), RoBERTa (125M parameters),
+achieve 0.93, 0.95, 0.95, and 0.96 accuracy, respectively on the Combined Corpus dataset while ELMo (93.6M pa-
+rameters) achieves 0.91. We also notice that the performance of the transformer-based models is proportionate to their
+number of pre-trained parameters. This relative performance can be justiﬁed by their state-of-the-art results on the text
+classiﬁcation task [39,55].
+12
+Table 5: Performance of Advanced Pre-trained Language Models
+Datasets
+Liar
+Fake or Real News
+Combined Corpus
+Model
+A
+P
+R
+F1
+A
+P
+R
+F1
+A
+P
+R
+F1
+BERT
+.62
+.62
+.62
+.62
+.96
+.96
+.96
+.96
+.95
+.95
+.95
+.95
+RoBERTa
+.62
+.63
+.62
+.62
+.98
+.98
+.98
+.98
+.96
+.96
+.96
+.96
+DistilBERT
+.60
+.60
+.60
+.60
+.95
+.95
+.95
+.95
+.93
+.93
+.93
+.93
+ELECTRA
+.61
+.61
+.61
+.61
+.96
+.96
+.96
+.95
+.95
+.95
+.95
+.95
+ELMo
+.61
+.61
+.61
+.61
+.93
+.93
+.93
+.93
+.91
+.91
+.91
+.91
+Summary of RQ2. Can the advanced pre-trained language models outperform the traditional and deep
+learning models? In our experiment, the pre-trained models perform signiﬁcantly better than the traditional and
+deep learning models on all datasets (Table 3, 4, 5). Since these models are pre-trained to learn contextual text
+representations on much larger quantities of text corpus and they have produced new state-of-the-art in several text
+classiﬁcation tasks [41], their commanding performance over the traditional and deep learning models in the fake
+news detection task is quite expected.
+Which model performs best with small training data? (RQ3)
+Figure 3: Comparison of Naive Bayes, Bi-LSTM, and RoBERTa with different training dataset size (from Fake or Real
+News dataset).
+We ﬁnd that pre-trained BERT-based models can perform very well with small datasets. We can realize that from
+their superior performance on small datasets like Liar and Fake or Real News which is signiﬁcantly better than other
+models. To further verify this, we take the best model from each of three types, i.e., Naive Bayes with n-gram (tradi-
+13
+tional), Bi-LSTM (deep learning), RoBERTa (BERT-based) and compare their performances. As their performances
+differ on the Fake or Real News dataset by very clear margins, we choose this dataset for this analysis. We report their
+accuracy on small sets of training data (i.e., 500, 2500, and 5000) chosen from Fake or Real News dataset. We show
+that RoBERTa achieves notably better performance than the other two (Figure 3). RoBERTa reaches more than 90%
+accuracy with just 500 training data and continues to improve with the increase of sample size. It hits 98% accuracy
+with 5000 sample size. On the other hand, both Naive Bayes and Bi-LSTM perform poorly when the size of training
+dataset is very small, i.e., 500 (Figure 3). Though their performances improve with the increase of dataset size, they
+fail to achieve 90% accuracy when the sample size is below 5000.
+Figure 4: Comparison of RoBERTa’s performance on different training dataset size (from Fake or Real News dataset).
+We further analyze the performance of RoBERTa on smaller datasets (Figure 4). We ﬁnd that the model continues to
+exhibit impressive accuracy (84%) even when the dataset size is 300. This is because pre-trained weights of RoBERTa
+have already learned the semantic representation from large text corpora. Fine-tuning on the labeled news articles help
+to learn the model to distinguish between the real and fake news. We observe that the performance of the model starts
+to drop quickly after the dataset length has been reduced to less than 300. Reducing the data makes it more difﬁcult
+for the model to differentiate the news articles. Therefore, the performance decreases quickly.
+Summary of RQ3. Which model performs best with small training data? Pre-trained models (i.e., RoBERTa)
+show quality performance even with very small training data in our experiment. We ﬁnd that RoBERTa achieves
+over 90% accuracy with a training set of 500 samples only (see Figure 3).
+5
+Discussion
+In this section, we compare the performance of the 19 models we studied along several dimensions like features used,
+resource requirements, etc. (see Section 5). We then analyze our models’ misclassiﬁcation, which is discussed in
+Section 5.
+Analysis of Performance of Different Models
+In Table 6 we summarize the models we studied in our study based on their accuracy across the three datasets, i.e., Liar,
+Fake or Real, Combined Corpus. Among the eight types of models we studied under traditional learning approach,
+Na¨ıve Bayes shows the best accuracy on all the three datasets: combined corpus (0.93), Fake or Real (0.86), and
+Liar (0.60). Among the six traditional deep learning models we studied, there are three different winners in the three
+datasets: C-LSTM shows the best performance on the combined corpus (Accuracy = 0.95), HAN shows the best
+performance (Accuracy = 0.87) on Fake or Real and HAN shows the best performance on the Liar dataset (Accuracy
+14
+Table 6: Summary of all models and performances
+Model Type
+Model
+Rationale for Picking
+Feature Used
+Summary of Result (Acc.)
+Liar˜
+Fake
+Or Real
+Combined
+Corpus
+Traditional
+Machine
+Learning
+Models
+SVM
+These traditional models are
+used in different classiﬁcation
+tasks including text
+classiﬁcation. Different
+existing studies used them for
+fake news detection as well.
+Lexical
+0.56
+0.67
+0.71
+SVM
+Lexical + Sentiment
+0.56
+0.66
+0.71
+LR
+Lexical + Sentiment
+0.56
+0. 67
+0. 76
+Decision Tree
+Lexical + Sentiment
+0.51
+0. 65
+0. 67
+AdaBoost
+Lexical + Sentiment
+0.56
+0. 72
+0. 74
+Na¨ıve Bayes
+Unigram
+0.60
+0. 82
+0. 91
+Na¨ıve Bayes
+Bigram
+0.60
+0. 86
+0. 93
+k-NN
+Empath
+0.54
+0. 71
+0. 71
+Deep
+Learning
+Models
+CNN
+CNN extracts features
+and classify texts by
+transforming words into
+vectors.
+GloVe embedding
+0.58
+0. 86
+0. 93
+LSTM
+LSTM remembers information
+for long sentences.
+0.54
+0. 76
+0. 93
+Bi-LSTM
+Bi-LSTM analyzes a certain
+part from both
+previous and
+next events.
+0.58
+0. 85
+0. 95
+C-LSTM
+Convolutional layer with max-
+pooling combines the local
+features into a global vector to
+help LSTM remembering
+important information.
+0.54
+0. 86
+0. 95
+HAN
+HAN applies attention
+mechanism for both
+word-level and sentence-level
+representation.
+0.75
+0. 87
+0. 92
+Conv-HAN
+Convolutional layer encodes
+embedding into feature for
+word-level and senetence-
+level attention.
+0.59
+0. 86
+0. 92
+Advanced
+Pre-trained
+Language
+Models
+BERT
+These language models are˜
+pre-trained on large text corpus˜
+and can be ﬁne-tuned for˜
+text classiﬁcation.
+BERT embeddings
+0.62
+0. 96
+0. 95
+RoBERTa
+RoBERTa embeddings
+0.62
+0. 98
+0. 96
+DistilBERT
+DistilBERT embeddings
+0.60
+0. 95
+0. 93
+ELECTRA
+ELECTRA embeddings
+0.61
+0. 96
+0. 95
+ELMo
+ELMo embeddings
+0.61
+0. 93
+0. 91
+15
+Table 7: Comparison of training time and GPU usage (in testing) for BERT-based models
+Model
+#Parameters
+Avg.
+training
+time
+per
+epoch (sec)
+GPU used in testing (GB)
+DistilBERT
+66 M
+2175
+2.48
+BERT
+110 M
+3149
+2.95
+RoBERTa
+125 M
+4020
+3.07
+= 0.75). Among the ﬁve pre-trained advanced natural language deep learning models we studied, RoBERTa shows
+the best performance across the three datasets: combined corpus (Accuracy = 0.96), Fake or Real dataset (Accuracy =
+0.98), and Liar (0.62). Overall, RoBERTa is the best performing model for two datasets (Combined corpus and
+Fake or Real) across all the models we studied, while HAN is the best performer for the Liar dataset.
+The performance of Na¨ıve Bayes (with n-gram) is only slightly less than the deep learning and pre-trained
+language models. As such, Na¨ıve Bayes can be a good choice for fake news detection on a sufﬁciently large
+dataset with hardware constraint. Naive Bayes (with n-gram) has also been reported to show good performance
+in spam detection in earlier studies [27]. We ﬁnd that the performance of Naive Bayes (with n-gram) is almost
+equivalent to the performances of deep learning models on Combined Corpus (see Table 3). Hence, in the
+absence of hardware resource requirement of deep learning and advanced pre-trained models (a possible case
+for non-proﬁt blogs/websites), Naive Bayes with n-gram can be a suitable option with a sufﬁciently large dataset.
+Note that the required size of the dataset may vary with its nature, i.e., the number of topics included. However,
+Naive Bayes fails to achieve considerable accuracy when trained on a minimal sample set (see Figure 3). Among
+the diverse features, we studied for the traditional learning models (lexical, sentiment, n-grams), bigram-based models
+(e.g., Na¨ıve Bayes) show better performance than other features. Overall, the incorporation of sentiment indicators
+into the models did not improve their performance. For example, for SVM the performance is the same (0.71) for
+both settings: lexical and lexical + sentiment. Therefore, Sentiment features are not observed as useful for fake
+news detection in our study. The classiﬁcation of news (as real or fake) has very little to do with the polarity (i.e.,
+sentiment), as fake news can be made up in both directions (positive or negative). While two LSTM-based models
+(Bi-LSTM, C-LSTM) are the best performer among all the traditional deep learning models, their performance
+degrades signiﬁcantly when the dataset sizes are smaller (see RQ3). We observe that LSTM based models show
+gradual improvement when the dataset length increases from LIAR to Combined Corpus. The more an article
+contains information, the less these models will be vulnerable to overﬁtting, and the better they will perform.
+Hence, neural network-based models may show high performance on a larger dataset over 100k samples [28].
+The pre-trained BERT-based models outperform the other models not only on the overall datasets but also on
+smaller samples of the datasets (see RQ3). We see that the BERT-based model (i.e., RoBERTa) is capable of
+achieving high accuracy (over 90%) even with a limited sample size of 500 data (see Figure 3). Hence, these
+models can be utilized for fake news detection in different languages where a large collection of labeled data is
+not feasible. Different pre-trained BERT models are already available for different languages, e.g., ALBERTO
+for Italian [47], AraBERT for Arabic [4], BanglaBERT 7.
+We measured the average training time (per epoch) and GPU usage (during testing) for each BERT-based model
+on Combined Corpus. We ﬁnd that the training time needed by DistilBERT is almost half of BERT and RoBERTa, and
+it requires less GPU for testing (i.e., prediction) as well (see Table 7). Therefore, while DistilBERT shows 0.93 accu-
+racy on the combined corpus which is only slightly behind BERT (0.95) or RoBERTa (0.96), DistilBERT can be
+useful for production-level usage with hardware constraint and less response time. This is because DistilBERT
+is developed using the concept of knowledge distillation [8, 26]. Hence, it is suitable for production-level usage
+considering its’ high performance and low resource requirement.
+Misclassiﬁcation Analysis
+Among the three datasets in our study, the best models (pre-trained language models) show more than 96% accuracy
+for two datasets (Combined corpus and Fake or Real). For the other dataset (Liar), the best performing model was HAN
+7https://github.com/sagorbrur/bangla-bert
+16
+Figure 5: Relation between models’ performance and article length.
+with 75% accuracy. Compared to the other two datasets, the Liar dataset has signiﬁcantly smaller articles (18 words
+on average) compared to the other two datasets (average 644 words for Combined Corpus and 765 words for Fake or
+Real news). Indeed, we have observed that when the number of training data is constant, the accuracy of this model is
+proportional to the average article length of news (see Figure 5). We conﬁrmed this by analyzing the performance of
+the Naive Bayes model on 5000 randomly selected records from each of our three datasets. This observation is also
+consistent with other models. Thus, with the increase of news article length, the models can become more accurate,
+because those can extract more information to classify the news correctly.
+Among the three datasets, two datasets are related to politics (Fake or Real news, Liar), while the other dataset
+(Combined Corpus) has fake news about diverse topics like health and research, politics, economy, and so on (see
+Figure 1 in Section 3). To understand whether the topic of the news has any effect on the classiﬁcation, we apply
+topic-based analysis on the fake news articles from the Combined corpus, which our model misclassiﬁes as real. We
+then map each misclassiﬁed case to the ten topics that we found in Figure 1 of the combined corpus. Overall, quotes
+are greatly misused to design fake news. We ﬁnd that the most frequent words in these articles are ‘said’, ‘study’, and
+‘research’. The profuse use of the word ‘said’ indicates how fake news sources misconstrue quotes to make these as
+believable as possible and carry out their own agendas.
+Table 8: Topic-wise percentage of false positive news in the Combined Corpus
+Topic
+False Positive News (%)
+Health and Research
+49.6
+Politics
+27.6
+Miscellaneous
+22.8
+The topic-wise analysis of misclassiﬁcation in the combined corpus shows that 49.6% of the false positive news
+(that are mispredicted as fake in our study) are related to health and research-based topics (Table 8). On the other
+17
+hand, a tiny portion (27.6%) of the false positive news are related to politics. This high false positive rate of health and
+research-related news bears evidence that clickbait news on health and research can be produced more convincingly. A
+slight change in the actual research article will still keep the fake news in the close proximity of the actual article, which
+makes it difﬁcult to identify them as fake news. In this way, it is quite easy for clickbait news sources to attract people
+by publishing news claiming the invention of a vaccine for incurable diseases like terminal cancer. Hence, although
+in recent times the media has focused mostly on combating unauthentic political news, it should also pay attention
+to stop the proliferation of false health and research-related news for public safety. We can realize this lesson even
+better if we think of the impact of fake news during the current COVID-19 pandemic. Corona related fake news has
+caused serious troubles and confusion among the people. Several fake news such as “Alcohol cures COVID-19”,“5G
+spreads coronavirus”, etc have affected people both physically and mentally8. Considering the threats associated with
+it, corona related fake news has been compared to a second pandemic or infodemic9.
+6
+Conclusions
+In this study, we present an overall performance analysis of 19 different machine learning approaches on three different
+datasets. Eight out of the 19 models are traditional learning models, six models are traditional deep learning models,
+and ﬁve models are advanced pre-trained language models like BERT. We ﬁnd that BERT-based models have achieved
+better performance than all other models on all datasets. More importantly, we ﬁnd that pre-trained BERT-based
+models are robust to the size of the dataset and can perform signiﬁcantly better on very small sample size. We also
+ﬁnd that Naive Bayes with n-gram can attain similar results to neural network-based models on a dataset when the
+dataset size is sufﬁcient. The performance of LSTM-based models greatly depends on the length of the dataset as well
+as the information given in a news article. With adequate information provided in a news article, LSTM-based models
+have a higher probability of overcoming overﬁtting. The results and ﬁndings based on our comparative analysis can
+facilitate future researches in this direction and also help the organizations (e.g., online news portals and social media)
+to choose the most suitable model who are interested in detecting fake news. Our future work in this direction will
+focus on designing models that can detect misinformation and health-related fake news that are prevalent in social
+media during the COVID-19 pandemic.
+References
+[1] Ashutosh Adhikari, Achyudh Ram, Raphael Tang, and Jimmy Lin. Docbert: Bert for document classiﬁcation.
+arXiv preprint arXiv:1904.08398, 2019.
+[2] Hadeer Ahmed, Issa Traore, and Sherif Saad. Detection of online fake news using n-gram analysis and machine
+learning techniques. In International Conference on Intelligent, Secure, and Dependable Systems in Distributed
+and Cloud Environments, pages 127–138. Springer, 2017.
+[3] Hunt Allcott and Matthew Gentzkow. Social media and fake news in the 2016 election. Journal of Economic
+Perspectives, 31(2):211–36, 2017.
+[4] Wissam Antoun, Fady Baly, and Hazem Hajj. Arabert: Transformer-based model for arabic language under-
+standing. arXiv preprint arXiv:2003.00104, 2020.
+[5] David M Blei, Andrew Y Ng, and Michael I Jordan. Latent dirichlet allocation. Journal of machine Learning
+research, 3(Jan):993–1022, 2003.
+[6] Alessandro Bondielli and Francesco Marcelloni. A survey on fake news and rumour detection techniques. Infor-
+mation Sciences, 497:38–55, 2019.
+[7] Peter Bourgonje, Julian Moreno Schneider, and Georg Rehm. From clickbait to fake news detection: an approach
+based on detecting the stance of headlines to articles. In Proceedings of the 2017 EMNLP Workshop: Natural
+Language Processing meets Journalism, pages 84–89, 2017.
+8https://www.bbc.com/news/stories-52731624, Accessed on: Oct 05, 2020.
+9https://www.nature.com/articles/d41586-020-01409-2, Accessed on: Oct 05, 2020.
+18
+[8] Cristian Buciluˇa, Rich Caruana, and Alexandru Niculescu-Mizil. Model compression. In Proceedings of the 12th
+ACM SIGKDD international conference on Knowledge discovery and data mining, pages 535–541, 2006.
+[9] J Douglas Carroll and Phipps Arabie. Multidimensional scaling. In Measurement, judgment and decision making,
+pages 179–250. Elsevier, 1998.
+[10] Yimin Chen, Niall J Conroy, and Victoria L Rubin. Misleading online content: Recognizing clickbait as false
+news. In Proceedings of the 2015 ACM on Workshop on Multimodal Deception Detection, pages 15–19. ACM,
+2015.
+[11] Kevin Clark, Minh-Thang Luong, Quoc V Le, and Christopher D Manning. Electra: Pre-training text encoders
+as discriminators rather than generators. arXiv preprint arXiv:2003.10555, 2020.
+[12] Mathieu Cliche. The sarcasm detector, 2014.
+[13] Niall J Conroy, Victoria L Rubin, and Yimin Chen. Automatic deception detection: Methods for ﬁnding fake
+news. In Proceedings of the 78th ASIS&T Annual Meeting: Information Science with Impact: Research in and
+for the Community, page 82. American Society for Information Science, 2015.
+[14] Enyan Dai, Yiwei Sun, and Suhang Wang. Ginger cannot cure cancer: Battling fake health news with a com-
+prehensive data repository. In Proceedings of the International AAAI Conference on Web and Social Media,
+volume 14, pages 853–862, 2020.
+[15] Wietse de Vries, Andreas van Cranenburgh, Arianna Bisazza, Tommaso Caselli, Gertjan van Noord, and Malvina
+Nissim. Bertje: A dutch bert model. arXiv preprint arXiv:1912.09582, 2019.
+[16] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. Bert: Pre-training of deep bidirectional
+transformers for language understanding. arXiv preprint arXiv:1810.04805, 2018.
+[17] Sanjeev M Dwivedi and Sunil B Wankhade. Survey on fake news detection techniques. In International Confer-
+ence on Image Processing and Capsule Networks, pages 342–348. Springer, 2020.
+[18] Ethan Fast, Binbin Chen, and Michael S Bernstein. Empath: Understanding topic signals in large-scale text. In
+Proceedings of the 2016 CHI Conference on Human Factors in Computing Systems, pages 4647–4657. ACM,
+2016.
+[19] Song Feng, Ritwik Banerjee, and Yejin Choi. Syntactic stylometry for deception detection. In Proceedings of the
+50th Annual Meeting of the Association for Computational Linguistics: Short Papers-Volume 2, pages 171–175.
+Association for Computational Linguistics, 2012.
+[20] Johannes F¨urnkranz. A study using n-gram features for text categorization. Austrian Research Institute for
+Artiﬁcal Intelligence, 3(1998):1–10, 1998.
+[21] Shlok Gilda. Evaluating machine learning algorithms for fake news detection. In Research and Development
+(SCOReD), 2017 IEEE 15th Student Conference on, pages 110–115. IEEE, 2017.
+[22] Santiago Gonz´alez-Carvajal and Eduardo C Garrido-Merch´an. Comparing bert against traditional machine learn-
+ing text classiﬁcation. arXiv preprint arXiv:2005.13012, 2020.
+[23] Mykhailo Granik and Volodymyr Mesyura. Fake news detection using naive bayes classiﬁer. In Electrical and
+Computer Engineering (UKRCON), 2017 IEEE First Ukraine Conference on, pages 900–903. IEEE, 2017.
+[24] Georgios Gravanis, Athena Vakali, Konstantinos Diamantaras, and Panagiotis Karadais. Behind the cues: A
+benchmarking study for fake news detection. Expert Systems with Applications, 128:201–213, 2019.
+[25] Tarek Hamdi, Hamda Slimi, Ibrahim Bounhas, and Yahya Slimani. A hybrid approach for fake news detection
+in twitter based on user features and graph embedding. In International Conference on Distributed Computing
+and Internet Technology, pages 266–280. Springer, 2020.
+[26] Geoffrey Hinton, Oriol Vinyals, and Jeff Dean. Distilling the knowledge in a neural network. arXiv preprint
+arXiv:1503.02531, 2015.
+19
+[27] Johan Hovold. Naive bayes spam ﬁltering using word-position-based attributes. In CEAS, pages 41–48, 2005.
+[28] Armand Joulin, Edouard Grave, Piotr Bojanowski, and Tomas Mikolov. Bag of tricks for efﬁcient text classiﬁ-
+cation. arXiv preprint arXiv:1607.01759, 2016.
+[29] Heejung Jwa, Dongsuk Oh, Kinam Park, Jang Mook Kang, and Heuiseok Lim. exbake: Automatic fake news
+detection model based on bidirectional encoder representations from transformers (bert).
+Applied Sciences,
+9(19):4062, 2019.
+[30] Dhruv Khattar, Jaipal Singh Goud, Manish Gupta, and Vasudeva Varma. Mvae: Multimodal variational autoen-
+coder for fake news detection. In The World Wide Web Conference, pages 2915–2921, 2019.
+[31] Yoon Kim. Convolutional neural networks for sentence classiﬁcation. arXiv preprint arXiv:1408.5882, 2014.
+[32] Sebastian Kula, Michał Chora´s, and Rafał Kozik. Application of the bert-based architecture in fake news detec-
+tion. In Conference on Complex, Intelligent, and Software Intensive Systems, pages 239–249. Springer, 2020.
+[33] Upmanu Lall and Ashish Sharma. A nearest neighbor bootstrap for resampling hydrologic time series. Water
+Resources Research, 32(3):679–693, 1996.
+[34] Nayeon Lee, Zihan Liu, and Pascale Fung. Team yeon-zi at semeval-2019 task 4: Hyperpartisan news detection
+by de-noising weakly-labeled data. In Proceedings of the 13th International Workshop on Semantic Evaluation,
+pages 1052–1056, 2019.
+[35] David Leonhardt and Stuart A Thompson. Trump’s lies. New York Times, 21, 2017.
+[36] Xin Li, Lidong Bing, Wenxuan Zhang, and Wai Lam. Exploiting bert for end-to-end aspect-based sentiment
+analysis. arXiv preprint arXiv:1910.00883, 2019.
+[37] Jianhua Lin. Divergence measures based on the shannon entropy. IEEE Transactions on Information theory,
+37(1):145–151, 1991.
+[38] Yang Liu. Fine-tune bert for extractive summarization. arXiv preprint arXiv:1903.10318, 2019.
+[39] Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy, Mike Lewis, Luke
+Zettlemoyer, and Veselin Stoyanov. Roberta: A robustly optimized bert pretraining approach. arXiv preprint
+arXiv:1907.11692, 2019.
+[40] Ilya Loshchilov and Frank Hutter. Decoupled weight decay regularization. arXiv preprint arXiv:1711.05101,
+2017.
+[41] Shervin Minaee, Nal Kalchbrenner, Erik Cambria, Narjes Nikzad, Meysam Chenaghlu, and Jianfeng Gao. Deep
+learning based text classiﬁcation: A comprehensive review. arXiv preprint arXiv:2004.03705, 2020.
+[42] Manish Munikar, Sushil Shakya, and Aakash Shrestha. Fine-grained sentiment classiﬁcation using bert. In 2019
+Artiﬁcial Intelligence for Transforming Business and Society (AITB), volume 1, pages 1–5. IEEE, 2019.
+[43] Ray Oshikawa, Jing Qian, and William Yang Wang. A survey on natural language processing for fake news
+detection. arXiv preprint arXiv:1811.00770, 2018.
+[44] Yifan Peng, Shankai Yan, and Zhiyong Lu. Transfer learning in biomedical natural language processing: An
+evaluation of bert and elmo on ten benchmarking datasets. arXiv preprint arXiv:1906.05474, 2019.
+[45] Jeffrey Pennington, Richard Socher, and Christopher Manning. Glove: Global vectors for word representation.
+In Proceedings of the 2014 conference on empirical methods in natural language processing (EMNLP), pages
+1532–1543, 2014.
+[46] Matthew E Peters, Mark Neumann, Mohit Iyyer, Matt Gardner, Christopher Clark, Kenton Lee, and Luke Zettle-
+moyer. Deep contextualized word representations. arXiv preprint arXiv:1802.05365, 2018.
+[47] Marco Polignano, Pierpaolo Basile, Marco de Gemmis, Giovanni Semeraro, and Valerio Basile. Alberto: Italian
+bert language understanding model for nlp challenging tasks based on tweets. In CLiC-it, 2019.
+20
+[48] Lutz Prechelt.
+Automatic early stopping using cross validation: quantifying the criteria.
+Neural Networks,
+11(4):761–767, 1998.
+[49] Lutz Prechelt. Early stopping-but when? In Neural Networks: Tricks of the trade, pages 55–69. Springer, 1998.
+[50] Hannah Rashkin, Eunsol Choi, Jin Yea Jang, Svitlana Volkova, and Yejin Choi. Truth of varying shades: Ana-
+lyzing language in fake news and political fact-checking. In Proceedings of the 2017 Conference on Empirical
+Methods in Natural Language Processing, pages 2931–2937, 2017.
+[51] Lorenzo Rosasco, Ernesto De Vito, Andrea Caponnetto, Michele Piana, and Alessandro Verri. Are loss functions
+all the same? Neural Computation, 16(5):1063–1076, 2004.
+[52] Victoria Rubin, Niall Conroy, Yimin Chen, and Sarah Cornwell. Fake news or truth? using satirical cues to
+detect potentially misleading news. In Proceedings of the Second Workshop on Computational Approaches to
+Deception Detection, pages 7–17, 2016.
+[53] Victoria L Rubin, Yimin Chen, and Niall J Conroy. Deception detection for news: three types of fakes. In
+Proceedings of the 78th ASIS&T Annual Meeting: Information Science with Impact: Research in and for the
+Community, page 83. American Society for Information Science, 2015.
+[54] Natali Ruchansky, Sungyong Seo, and Yan Liu. Csi: A hybrid deep model for fake news detection. In Proceedings
+of the 2017 ACM on Conference on Information and Knowledge Management, pages 797–806. ACM, 2017.
+[55] Victor Sanh, Lysandre Debut, Julien Chaumond, and Thomas Wolf. Distilbert, a distilled version of bert: smaller,
+faster, cheaper and lighter. arXiv preprint arXiv:1910.01108, 2019.
+[56] Kai Shu, Limeng Cui, Suhang Wang, Dongwon Lee, and Huan Liu. defend: Explainable fake news detection.
+In Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining,
+pages 395–405, 2019.
+[57] Kai Shu, Amy Sliva, Suhang Wang, Jiliang Tang, and Huan Liu. Fake news detection on social media: A data
+mining perspective. ACM SIGKDD Explorations Newsletter, 19(1):22–36, 2017.
+[58] Sneha Singhania, Nigel Fernandez, and Shrisha Rao. 3han: A deep neural network for fake news detection. In
+International Conference on Neural Information Processing, pages 572–581. Springer, 2017.
+[59] Chi Sun, Xipeng Qiu, Yige Xu, and Xuanjing Huang. How to ﬁne-tune bert for text classiﬁcation? In China
+National Conference on Chinese Computational Linguistics, pages 194–206. Springer, 2019.
+[60] Eugenio Tacchini, Gabriele Ballarin, Marco L Della Vedova, Stefano Moret, and Luca de Alfaro. Some like it
+hoax: Automated fake news detection in social networks. arXiv preprint arXiv:1704.07506, 2017.
+[61] Ian Tenney, Dipanjan Das, and Ellie Pavlick.
+Bert rediscovers the classical nlp pipeline.
+arXiv preprint
+arXiv:1905.05950, 2019.
+[62] James Thorne, Mingjie Chen, Giorgos Myrianthous, Jiashu Pu, Xiaoxuan Wang, and Andreas Vlachos. Fake
+news stance detection using stacked ensemble of classiﬁers. In Proceedings of the 2017 EMNLP Workshop:
+Natural Language Processing meets Journalism, pages 80–83, 2017.
+[63] William Yang Wang. ” liar, liar pants on ﬁre”: A new benchmark dataset for fake news detection. arXiv preprint
+arXiv:1705.00648, 2017.
+[64] Liang Wu, Jundong Li, Xia Hu, and Huan Liu. Gleaning wisdom from the past: Early detection of emerging
+rumors in social media. In Proceedings of the 2017 SIAM International Conference on Data Mining, pages
+99–107. SIAM, 2017.
+[65] Liang Wu and Huan Liu. Tracing fake-news footprints: Characterizing social media messages by how they
+propagate. In Proceedings of the Eleventh ACM International Conference on Web Search and Data Mining,
+pages 637–645. ACM, 2018.
+21
+[66] Xichen Zhang and Ali A Ghorbani. An overview of online fake news: Characterization, detection, and discussion.
+Information Processing & Management, 57(2):102025, 2020.
+[67] Xinyi Zhou and Reza Zafarani. Network-based fake news detection: A pattern-driven approach. ACM SIGKDD
+Explorations Newsletter, 21(2):48–60, 2019.
+22

@@ -1,0 +1,24 @@
+﻿{
+    "doc_id": "AI_prediction_leads_people_to_forgo_guaranteed_rewards",
+    "researchers": [
+        "Aoi Naito",
+        "Hirokazu Shirado"
+    ],
+    "institution": "Carnegie Mellon University",
+    "research_capabilities": [
+        "preregistered experimental design",
+        "behavioral economics paradigm adaptation",
+        "vignette-based experimental design",
+        "between/within-subjects factorial design",
+        "LLM-based experimental stimulus design",
+        "system prompt engineering for chatbots",
+        "Bayesian computational cognitive modeling",
+        "Hamiltonian Monte Carlo / NUTS sampling (PyMC)",
+        "fixed-effect meta-analysis",
+        "mixed-effects longitudinal modeling",
+        "model comparison via information criteria",
+        "online participant recruitment (Prolific)",
+        "psychometric scale administration",
+        "interactive web-based experiment development"
+    ]
+}

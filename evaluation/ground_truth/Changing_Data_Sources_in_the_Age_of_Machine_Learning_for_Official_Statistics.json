@@ -1,0 +1,20 @@
+﻿{
+    "doc_id": "Changing_Data_Sources_in_the_Age_of_Machine_Learning_for_Official_Statistics",
+    "researchers": [
+        "Cedric De Boom",
+        "Michael Reusens"
+    ],
+    "institution": "",
+    "research_capabilities": [
+        "data pipeline risk auditing",
+        "concept drift diagnosis",
+        "ML production monitoring design",
+        "data quality framework development",
+        "external data source vetting",
+        "supervised/unsupervised model evaluation",
+        "data governance and SLA design",
+        "official statistics methodology",
+        "algorithmic bias and fairness assessment",
+        "applied NLP for sentiment/topic analysis"
+    ]
+}

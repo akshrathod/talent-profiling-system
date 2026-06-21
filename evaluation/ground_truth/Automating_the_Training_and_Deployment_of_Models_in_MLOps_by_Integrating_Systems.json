@@ -1,0 +1,21 @@
+﻿{
+    "doc_id": "Automating_the_Training_and_Deployment_of_Models_in_MLOps_by_Integrating_Systems",
+    "researchers": [
+        "Penghao Liang",
+        "Bo Song",
+        "Xiaoan Zhan"
+    ],
+    "institution": "Northeastern University",
+    "research_capabilities": [
+        "MLOps architecture design",
+        "CI/CD pipeline integration",
+        "Kubernetes orchestration",
+        "containerization for ML workflows",
+        "DevSecOps security integration",
+        "model versioning systems",
+        "neural network compression techniques",
+        "production model monitoring",
+        "industrial case study analysis",
+        "DevOps-to-MLOps process adaptation"
+    ]
+}
