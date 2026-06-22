@@ -4,18 +4,16 @@ Saves PDFs to data/raw/ locally AND uploads them to S3 bucket.
 """
 
 import arxiv
-import boto3
-import os
 import time
 import urllib.request
 from pathlib import Path
 from dotenv import load_dotenv
+from storage.s3_storage import upload_file
 
 load_dotenv()
 
 # Config
 
-S3_BUCKET       = os.getenv("S3_BUCKET_NAME", "talent-profiling-raw-docs")  # saved in .env file
 LOCAL_RAW_DIR   = Path("data/raw")
 PAPERS_PER_TOPIC = 10         # 5 topics x 10 papers = 50 papers total
 
@@ -26,16 +24,6 @@ SEARCH_TOPICS = [
     "machine learning systems MLOps deployment",
     "AI safety alignment robustness",
 ]
-
-# S3 Client
-
-def get_s3_client():
-    return boto3.client(
-        "s3",
-        aws_access_key_id     = os.getenv("AWS_ACCESS_KEY_ID"),
-        aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY"),
-        region_name           = os.getenv("AWS_REGION", "us-east-1"),
-    )
 
 # Helpers
 
@@ -56,10 +44,10 @@ def download_pdf(paper, dest_path: Path) -> bool:
         return False
 
 
-def upload_to_s3(s3, local_path: Path, s3_key: str) -> bool:
+def upload_to_s3(local_path: Path, s3_key: str) -> bool:
     """Upload a local file to S3. Returns True on success."""
     try:
-        s3.upload_file(str(local_path), S3_BUCKET, s3_key)
+        upload_file(local_path, s3_key)
         return True
     except Exception as e:
         print(f"    X S3 upload failed: {e}")
@@ -69,8 +57,6 @@ def upload_to_s3(s3, local_path: Path, s3_key: str) -> bool:
 
 def ingest_papers():
     LOCAL_RAW_DIR.mkdir(parents=True, exist_ok=True)
-    s3 = get_s3_client()
-
     total_downloaded = 0
     total_uploaded   = 0
     registry         = []          # track what we collected
@@ -78,7 +64,7 @@ def ingest_papers():
     print(f"\n{'='*60}")
     print(f"  arXiv Ingester - {len(SEARCH_TOPICS)} topics x {PAPERS_PER_TOPIC} papers")
     print(f"  Local -> {LOCAL_RAW_DIR.resolve()}")
-    print(f"  Cloud -> s3://{S3_BUCKET}/raw/")
+    print("  Cloud -> S3 raw/")
     print(f"{'='*60}\n")
 
     for topic in SEARCH_TOPICS:
@@ -110,7 +96,7 @@ def ingest_papers():
                     continue
 
             # Upload to S3
-            if upload_to_s3(s3, local_path, s3_key):
+            if upload_to_s3(local_path, s3_key):
                 total_uploaded += 1
                 print(f"    Uploaded to S3")
 
@@ -137,7 +123,7 @@ def ingest_papers():
         json.dump(registry, f, indent=2)
 
     # Upload registry to S3 too
-    upload_to_s3(s3, registry_path, "raw/registry.json")
+    upload_to_s3(registry_path, "raw/registry.json")
 
     print(f"{'='*60}")
     print(f"  Downloaded : {total_downloaded} PDFs")
